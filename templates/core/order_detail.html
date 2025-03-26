@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Детали заявки</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% if order %}
+            <h1>Заявка #{{ order.id }}</h1>
+            <div class="order-details">
+                <p><strong>Клиент:</strong> {{ order.client_name }}</p>
+                <p><strong>Дата:</strong> {{ order.date }}</p>
+                <p><strong>Статус:</strong> <span class="status status-{{ order.status|slugify }}">{{ order.status }}</span></p>
+                <p><strong>Мастер:</strong> {{ master.name|default:"Не назначен" }}</p>
+                
+                <h2>Услуги:</h2>
+                <ul class="services-list">
+                    {% for service in order.services %}
+                        <li>{{ service }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <h1>Ошибка 404</h1>
+            <p>Заявка не найдена.</p>
+        {% endif %}
+        <a href="{% url 'orders_list' %}" class="button">Назад к списку</a>
+    </div>
+</body>
+</html>

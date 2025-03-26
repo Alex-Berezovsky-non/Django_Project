@@ -1,0 +1,43 @@
+/* Основные стили */
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Заголовки */
+h1, h2 {
+    color: #d4af37; /* Золотой цвет для акцентов */
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 10px;
+}
+
+/* Список мастеров */
+.masters-list {
+    list-style: none;
+    padding: 0;
+}
+
+.masters-list li {
+    background-color: #2d2d2d;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Кнопки */
+.button {
+    background-color: #d4af37;
+    color: #1a1a1a;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #b59430;
+}
