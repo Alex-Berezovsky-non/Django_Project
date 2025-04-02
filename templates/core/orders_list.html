@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>Список заявок</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1>Все заявки</h1>
-        <ul class="orders-list">
-            {% for order in orders %}
-                <li class="order-item">
-                    <a href="{% url 'order_detail' order.id %}" class="order-link">
-                        {{ order.client_name }} 
-                        <span class="status status-{{ order.status|slugify }}">{{ order.status }}</span>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-        <a href="{% url 'landing' %}" class="button">На главную</a>
+{% extends 'base.html' %}
+
+{% block title %}Список заявок{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Список заявок</h1>
+    <div class="row">
+        {% for order in orders %}
+            <div class="col-md-6">
+                {% include 'includes/order_card.html' %}
+            </div>
+        {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}
