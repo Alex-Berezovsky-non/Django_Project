@@ -1,43 +1,143 @@
+:root {
+    --primary-color: #1a1a1a;
+    --accent-color: #d4af37;
+    --dark-bg: #2d2d2d;
+    --text-color: #ffffff;
+}
+
 /* Основные стили */
 body {
-    background-color: #1a1a1a;
-    color: #ffffff;
+    background-color: var(--primary-color);
+    color: var(--text-color);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
+    line-height: 1.6;
+}
+
+/* Навигация */
+.navbar {
+    border-bottom: 3px solid var(--accent-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.nav-link {
+    position: relative;
+    transition: all 0.3s;
+}
+
+.nav-link:hover::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
 }
 
 /* Заголовки */
 h1, h2 {
-    color: #d4af37; /* Золотой цвет для акцентов */
-    border-bottom: 2px solid #d4af37;
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
     padding-bottom: 10px;
 }
 
-/* Список мастеров */
-.masters-list {
-    list-style: none;
-    padding: 0;
+h1::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 70%;
+    width: 5px;
+    background: var(--accent-color);
+    border-radius: 3px;
 }
 
-.masters-list li {
-    background-color: #2d2d2d;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
+/* Карточки */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: var(--dark-bg);
+    border: none;
 }
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Статусы */
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+.status-new { background: #4CAF50; }
+.status-in_progress { background: #FFC107; }
+.status-completed { background: #2196F3; }
+
+/* Списки */
+.services-list {
+    display: grid;
+    gap: 0.8rem;
+    padding-left: 1.5rem;
+}
+
+.services-list li {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.services-list li::before {
+    content: "✂️";
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
 
 /* Кнопки */
 .button {
-    background-color: #d4af37;
-    color: #1a1a1a;
-    padding: 10px 20px;
+    background: linear-gradient(45deg, #d4af37, #c5a227);
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.5s;
 }
 
 .button:hover {
-    background-color: #b59430;
+    background: linear-gradient(45deg, #c5a227, #b59430);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.button:hover::after {
+    left: 50%;
 }
