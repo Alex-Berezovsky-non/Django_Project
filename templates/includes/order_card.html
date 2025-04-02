@@ -1,0 +1,13 @@
+{% load custom_filters %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ order.client_name }}</h5>
+        <p class="card-text">
+            <span class="badge bg-{{ order.status|status_color }}">
+                {{ order.status }}
+            </span>
+            {{ order.date }}
+        </p>
+        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Подробнее</a>
+    </div>
+</div>
