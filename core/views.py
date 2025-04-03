@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .data import masters, services, orders  # ✅ Импорт из data.py
+from .data import masters, services, orders 
 
 def landing(request):
     return render(request, 'landing.html', {

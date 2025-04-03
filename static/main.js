@@ -3,43 +3,44 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
+                target.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
                 });
+                history.replaceState(null, null, `#${targetId}`);
+                updateActiveMenu(targetId);
             }
         });
     });
-    // Параллакс-эффект
+
+    // Автоматическая подсветка меню
     window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        
-        // Для заголовков
-        document.querySelectorAll('h1').forEach(h1 => {
-            h1.style.transform = `translateX(${scrolled * 0.1}px)`;
+        const sections = document.querySelectorAll('section[id]');
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                updateActiveMenu(section.id);
+            }
         });
+    });
 
-        // Для карточек
-        document.querySelectorAll('.card').forEach((card, index) => {
-            card.style.transform = `translateY(${scrolled * 0.05 * (index % 2 ? -1 : 1)}px)`;
+    function updateActiveMenu(targetId) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${targetId}`) {
+                link.classList.add('active');
+            }
         });
-    });
-
-    // Анимация статусов
-    document.querySelectorAll('.status').forEach(status => {
-        status.style.animation = 'colorPulse 2s infinite';
-    });
-
-    // Обработка форм
-    document.querySelector('.contact-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const form = e.target;
-        form.classList.add('processing');
-        setTimeout(() => {
-            form.classList.remove('processing');
-            alert('Форма отправлена!');
-        }, 1500);
-    });
+    }
 });
+
+
 

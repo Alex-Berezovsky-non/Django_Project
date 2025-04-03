@@ -6,19 +6,35 @@
     <link rel="stylesheet" href="{% static 'main.css' %}">
 </head>
 <body>
-    <h1>Наши мастера</h1>
-    <ul>
-        {% for master in masters %}
-            <li>{{ master.name }}</li>
-        {% endfor %}
-    </ul>
-    
-    <h1>Услуги</h1>
-    <ul>
-        {% for service in services %}
-            <li>{{ service }}</li>
-        {% endfor %}
-    </ul>
+    <section id="about" class="section">
+        <h1>О нас</h1>
+        <p>Пока что разработке...</p>
+    </section>
+
+    <section id="services" class="section">
+        <h1>Услуги</h1>
+        <ul class="services-list">
+            {% for service in services %}
+                <li>{{ service }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="masters" class="section">
+        <h1>Наши мастера</h1>
+        <ul>
+            {% for master in masters %}
+                <li>{{ master.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="booking" class="section">
+        <h1>Запись онлайн</h1>
+        <form class="contact-form">
+        </form>
+    </section>
+
     <script src="{% static 'main.js' %}"></script>
 </body>
 </html>

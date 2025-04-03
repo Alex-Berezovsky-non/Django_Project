@@ -13,17 +13,45 @@ body {
     margin: 0;
     padding: 20px;
     line-height: 1.6;
+    overflow-x: hidden; /* Фикс для горизонтального скролла */
+}
+
+/* Секции страницы */
+section {
+    min-height: 100vh; /* Минимальная высота на весь экран */
+    padding: 80px 20px 40px; /* Учитывает высоту навигации */
+    scroll-margin-top: 70px; /* Фикс для якорных ссылок */
 }
 
 /* Навигация */
 .navbar {
     border-bottom: 3px solid var(--accent-color);
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    background: var(--primary-color);
+    z-index: 1000;
 }
 
 .nav-link {
     position: relative;
     transition: all 0.3s;
+}
+
+/* Подсветка активного пункта меню */
+.nav-link.active {
+    color: var(--accent-color) !important;
+    font-weight: 700;
+}
+
+.nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
 }
 
 .nav-link:hover::after {
@@ -34,6 +62,12 @@ body {
     width: 100%;
     height: 2px;
     background: var(--accent-color);
+    animation: underline-grow 0.3s ease-out;
+}
+
+@keyframes underline-grow {
+    from { width: 0; }
+    to { width: 100%; }
 }
 
 /* Заголовки */
@@ -43,6 +77,7 @@ h1, h2 {
     color: var(--accent-color);
     border-bottom: 2px solid var(--accent-color);
     padding-bottom: 10px;
+    transform: none !important; /* Фикс для параллакса */
 }
 
 h1::before {
@@ -62,6 +97,7 @@ h1::before {
     transition: transform 0.3s, box-shadow 0.3s;
     background: var(--dark-bg);
     border: none;
+    margin: 15px 0;
 }
 
 .card:hover {
@@ -76,32 +112,34 @@ h1::before {
     font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 1px;
+    display: inline-block;
 }
-
 
 .status-new { background: #4CAF50; }
 .status-in_progress { background: #FFC107; }
 .status-completed { background: #2196F3; }
 
-/* Списки */
+/* Списки услуг */
 .services-list {
     display: grid;
-    gap: 0.8rem;
+    gap: 1.2rem;
     padding-left: 1.5rem;
+    list-style: none;
 }
 
 .services-list li {
     position: relative;
-    padding-left: 2rem;
+    padding-left: 2.5rem;
+    font-size: 1.1em;
 }
 
 .services-list li::before {
     content: "✂️";
     position: absolute;
     left: 0;
-    top: 2px;
+    top: 1px;
+    font-size: 1.3em;
 }
-
 
 /* Кнопки */
 .button {
@@ -114,6 +152,7 @@ h1::before {
     transition: all 0.2s ease-in-out;
     position: relative;
     overflow: hidden;
+    display: inline-block;
 }
 
 .button::after {
@@ -140,4 +179,16 @@ h1::before {
 
 .button:hover::after {
     left: 50%;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    section {
+        padding: 60px 15px 30px;
+        min-height: auto;
+    }
+    
+    .services-list li {
+        padding-left: 2rem;
+    }
 }

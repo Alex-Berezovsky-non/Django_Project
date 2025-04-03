@@ -3,12 +3,14 @@
 {% block title %}Список заявок{% endblock %}
 
 {% block content %}
+<div class="container mt-5 pt-4">  
     <h1 class="mb-4">Список заявок</h1>
     <div class="row">
         {% for order in orders %}
-            <div class="col-md-6">
+            <div class="col-md-6 mb-4"> 
                 {% include 'includes/order_card.html' %}
             </div>
         {% endfor %}
     </div>
+</div>
 {% endblock %}
