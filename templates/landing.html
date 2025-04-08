@@ -1,14 +1,10 @@
+{% extends 'base.html' %} 
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Главная</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
-</head>
-<body>
-    <section id="about" class="section">
+
+{% block content %}
+    <section id="about" class="section pt-0">
         <h1>О нас</h1>
-        <p>Пока что разработке...</p>
+        <p>Барбершоп "Стильная Борода"<br>Пока что в разработке...</p>
     </section>
 
     <section id="services" class="section">
@@ -22,7 +18,7 @@
 
     <section id="masters" class="section">
         <h1>Наши мастера</h1>
-        <ul>
+        <ul class="masters-list">
             {% for master in masters %}
                 <li>{{ master.name }}</li>
             {% endfor %}
@@ -34,7 +30,4 @@
         <form class="contact-form">
         </form>
     </section>
-
-    <script src="{% static 'main.js' %}"></script>
-</body>
-</html>
+{% endblock %}

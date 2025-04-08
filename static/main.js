@@ -1,46 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Плавная прокрутка
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const target = document.getElementById(targetId);
+// document.addEventListener('DOMContentLoaded', () => {
+//     const navbar = document.querySelector('.navbar');
+//     const navbarHeight = navbar ? navbar.offsetHeight : 0;
+//     let scrollTimeout;
+
+//     // Плавная прокрутка
+//     document.querySelectorAll('a[href^="#"]').forEach(link => {
+//         link.addEventListener('click', e => {
+//             e.preventDefault();
+//             const target = document.querySelector(link.hash);
+//             if (!target) return;
             
-            if (target) {
-                target.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
-                history.replaceState(null, null, `#${targetId}`);
-                updateActiveMenu(targetId);
-            }
-        });
-    });
-
-    // Автоматическая подсветка меню
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.scrollY + 100;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
+//             target.scrollIntoView({ 
+//                 behavior: 'smooth', 
+//                 block: 'start',
+//                 inline: 'nearest'
+//             });
             
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                updateActiveMenu(section.id);
-            }
-        });
-    });
+//             history.pushState(null, null, link.hash);
+//             setActiveLink(link.hash.slice(1));
+//         });
+//     });
 
-    function updateActiveMenu(targetId) {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${targetId}`) {
-                link.classList.add('active');
-            }
-        });
-    }
-});
+//     // Оптимизированный скролл
+//     window.addEventListener('scroll', () => {
+//         clearTimeout(scrollTimeout);
+//         scrollTimeout = setTimeout(updateActiveSection, 100);
+//     });
 
+//     function updateActiveSection() {
+//         let activeSection = null;
+        
+//         document.querySelectorAll('section[id]').forEach(section => {
+//             const { top } = section.getBoundingClientRect();
+//             if (top <= navbarHeight + 20 && // 20px допуск
+//                 (!activeSection || top < activeSection.top)) {
+//                 activeSection = { id: section.id, top };
+//             }
+//         });
+        
+//         if (activeSection) setActiveLink(activeSection.id);
+//     }
 
+//     // Обновление активной ссылки
+//     function setActiveLink(sectionId) {
+//         document.querySelectorAll('.nav-link').forEach(link => {
+//             const isActive = link.hash === `#${sectionId}`;
+//             link.classList.toggle('active', isActive);
+//             link.setAttribute('aria-current', isActive ? 'page' : null);
+//         });
+//     }
+// });
 

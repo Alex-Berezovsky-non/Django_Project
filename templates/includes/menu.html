@@ -1,24 +1,36 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid px-2">
+        <a class="navbar-brand" href="/">Барбершоп Стильная Борода</a>
+        
+        <button class="navbar-toggler" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav">
 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'landing' %}#about">О нас</a>
+                    <a class="nav-link px-2" href="#about">О нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'landing' %}#services">Услуги</a>
+                    <a class="nav-link px-2" href="#services">Услуги</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'landing' %}#masters">Мастера</a>
+                    <a class="nav-link px-2" href="#masters">Мастера</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'landing' %}#booking">Запись</a>
+                    <a class="nav-link px-2" href="#booking">Запись</a>
                 </li>
             </ul>
+
+            <div class="d-flex gap-1">
+                <a href="{% url 'orders_list' %}" 
+                class="btn btn-outline-light btn-sm">
+                    📋 Заказы
+                </a>
+            </div>
         </div>
     </div>
 </nav>
