@@ -26,7 +26,9 @@
             <h1>Ошибка 404</h1>
             <p>Заявка не найдена.</p>
         {% endif %}
-        <a href="{% url 'orders_list' %}" class="button">Назад к списку</a>
+        <a href="{% url 'orders_list' %}" class="back-btn">
+            <i class="bi bi-arrow-left-circle me-2"></i>Назад к списку
+        </a>
     </div>
 </body>
 </html>

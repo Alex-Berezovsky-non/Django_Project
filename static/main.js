@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             history.pushState(null, null, link.hash);
-            setActiveLink(link.hash.slice(1));
+            setActiveLink(link.hash.slice(1)); // Убираем #
         });
     });
 
