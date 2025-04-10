@@ -35,11 +35,17 @@
                 </li>
             </ul>
 
-            <div class="d-flex gap-1">
+            <div class="d-flex gap-2">
+                <a href="{% url 'thanks' %}" class="btn btn-outline-light">
+                    <i class="bi bi-heart me-2"></i>Спасибо
+                </a>
+
+                {% if user.is_staff %}
                 <a href="{% url 'orders_list' %}" 
-                class="btn orders-btn">
+                   class="btn btn-outline-light">
                     <i class="bi bi-list-check me-2"></i>Заказы
                 </a>
+                {% endif %}
             </div>
         </div>
     </div>
