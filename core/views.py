@@ -18,7 +18,7 @@ def orders_list(request):
 def order_detail(request, order_id):
     order = next((o for o in orders if o['id'] == order_id), None)
     
-    if not order:  # ✅ Обработка отсутствия заявки
+    if not order:  
         return render(request, 'core/404.html', status=404)
     
     master = next((m for m in masters if m['id'] == order['master_id']), None)
