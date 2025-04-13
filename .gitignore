@@ -1,6 +1,25 @@
 # created by virtualenv automatically
+# Виртуальное окружение
 .venv/
+
+# Файлы базы данных
 db.sqlite3
-*__pycahce__
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+
+# Файлы окружения
 .env
 .env.example
+.env.local
+# Системные файлы
+.DS_Store  # Для macOS
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
