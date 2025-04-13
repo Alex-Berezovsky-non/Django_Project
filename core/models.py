@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinLengthValidator,MaxLengthValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Service(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название")
@@ -72,3 +72,27 @@ class Order(models.Model):
     class Meta:                 
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+
+class Review(models.Model):
+    text = models.TextField(verbose_name="Текст отзыва")
+    client_name = models.CharField(max_length=100, blank=True,verbose_name="Имя клиента")
+    master = models.ForeignKey(
+            Master,
+            on_delete=models.CASCADE,
+            verbose_name="Мастер"
+    )
+    photo = models.ImageField(upload_to="reviews/",blank=True,null=True,verbose_name="Фотография")
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="Дата создания")
+    rating = models.PositiveSmallIntegerField(
+            validators=[MinValueValidator(1), MaxValueValidator(5)],
+            verbose_name="Оценка"
+    )
+    is_published = models.BooleanField(default=True,verbose_name="Опубликован")
+    
+    def __str__(self):
+        return f"Отзыв от {self.client_name}"
+    
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
