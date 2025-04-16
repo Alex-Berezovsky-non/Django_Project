@@ -14,35 +14,35 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link px-2" href="#about">
+                    <a class="nav-link nav-link-gold px-2" href="#about">
                         <i class="bi bi-info-circle me-1"></i>О нас
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-2" href="#services">
+                    <a class="nav-link nav-link-gold px-2" href="#services">
                         <i class="bi bi-scissors me-1"></i>Услуги
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-2" href="#masters">
+                    <a class="nav-link nav-link-gold px-2" href="#masters">
                         <i class="bi bi-people me-1"></i>Мастера
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-2" href="#booking">
+                    <a class="nav-link nav-link-gold px-2" href="#booking">
                         <i class="bi bi-calendar-check me-1"></i>Запись
                     </a>
                 </li>
             </ul>
 
             <div class="d-flex gap-2">
-                <a href="{% url 'thanks' %}" class="btn btn-outline-light">
+                <a href="{% url 'thanks' %}" class="btn btn-gold">
                     <i class="bi bi-heart me-2"></i>Спасибо
                 </a>
 
                 {% if user.is_staff %}
                 <a href="{% url 'orders_list' %}" 
-                   class="btn btn-outline-light">
+                   class="btn btn-gold">
                     <i class="bi bi-list-check me-2"></i>Заказы
                 </a>
                 {% endif %}

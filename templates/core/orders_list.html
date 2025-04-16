@@ -1,14 +1,68 @@
 {% extends 'base.html' %}
-
-{% block title %}Список заявок{% endblock %}
+{% load static %}
 
 {% block content %}
-<div class="container mt-5 pt-4">  
+<div class="container mt-5">
     <h1 class="mb-4">Список заявок</h1>
+    <form method="GET" class="mb-4 border p-3 rounded">
+        <div class="input-group">
+            <input type="text" 
+                   name="q" 
+                   class="form-control" 
+                   placeholder="Поиск..." 
+                   value="{{ search_query }}">
+            <button type="submit" class="btn btn-gold">Найти</button>
+        </div>
+        
+        <div class="mt-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       name="fields" 
+                       value="client" 
+                       id="clientCheck" 
+                       {% if "client" in search_fields %}checked{% endif %}>
+                <label class="form-check-label" for="clientCheck">По имени</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       name="fields" 
+                       value="phone" 
+                       id="phoneCheck"
+                       {% if "phone" in search_fields %}checked{% endif %}>
+                <label class="form-check-label" for="phoneCheck">По телефону</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       name="fields" 
+                       value="comment" 
+                       id="commentCheck"
+                       {% if "comment" in search_fields %}checked{% endif %}>
+                <label class="form-check-label" for="commentCheck">По комментарию</label>
+            </div>
+        </div>
+    </form>
     <div class="row">
         {% for order in orders %}
-            <div class="col-md-6 mb-4"> 
-                {% include 'includes/order_card.html' %}
+            <div class="col-md-6 mb-4">
+                <div class="card border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title text-gradient">Заказ #{{ order.id }}</h5>
+                        <p class="card-text">
+                            Клиент: {{ order.client_name }}<br>
+                            Телефон: {{ order.phone }}<br>
+                            <span class="badge bg-gold mt-2">
+                                Статус: {{ order.get_status_display }}
+                            </span>
+                        </p>
+                        <a href="{% url 'order_detail' order.id %}" 
+                           class="btn btn-gold">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
