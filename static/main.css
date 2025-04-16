@@ -2,8 +2,8 @@
 :root {
     --primary-bg: #0A0A0A;
     --secondary-bg: #1C1C1E;
-    --accent-gold: #C5A059;
-    --text-primary: #FFFFFF;
+    --accent-gold: #ddca1c ;
+    --text-primary: hwb(53 27% 14%);
     --text-secondary: #B0B0B0;
     --border-color: rgba(197, 160, 89, 0.3);
     --btn-bg: linear-gradient(135deg, #C5A059 0%, #9E7E47 100%);
@@ -119,4 +119,9 @@ body {
     .card {
         margin: 0 10px;
     }
+}
+.master-card .services-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
 }

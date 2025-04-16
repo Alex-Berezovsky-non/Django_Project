@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateActiveSection() {
-        let activeSection = null;
+        const activeSection = null;
         document.querySelectorAll('section[id]').forEach(section => {
             const { top } = section.getBoundingClientRect();
             if (top <= navbarHeight && (!activeSection || top < activeSection.top)) {
