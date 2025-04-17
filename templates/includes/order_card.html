@@ -3,11 +3,9 @@
     <div class="card-body">
         <h5 class="card-title">{{ order.client_name }}</h5>
         <p class="card-text">
-            <span class="badge bg-{{ order.status|status_color }}">
-                {{ order.status }}
-            </span>
-            {{ order.date }}
+            <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+            {{ order.date_created|date:"d.m.Y H:i" }}
         </p>
-        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Подробнее</a>
+        <a href="{% url 'order_detail' order.id %}" class="btn btn-gold">Подробнее</a>
     </div>
 </div>

@@ -6,7 +6,7 @@ from django.db.models import Q
 def landing(request):
     masters = Master.objects.filter(is_active=True)
     reviews = Review.objects.filter(is_published=True)
-    services = Service.objects.all()  # Добавлено
+    services = Service.objects.all() 
     return render(request, 'landing.html', {
         'masters': masters,
         'reviews': reviews,
