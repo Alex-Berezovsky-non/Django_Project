@@ -23,16 +23,11 @@
                     <dd class="col-sm-9">{{ order.phone }}</dd>
 
                     <dt class="col-sm-3">Статус:</dt>
-                    <dd class="col-sm-9">
-                        <span class="badge 
-                            {% if order.status == 'completed' %}bg-success
-                            {% elif order.status == 'approved' %}bg-info
-                            {% elif order.status == 'canceled' %}bg-danger
-                            {% elif order.status == 'not_approved' %}bg-warning
-                            {% else %}bg-secondary{% endif %}">
-                            {{ order.get_status_display }}
-                        </span>
-                    </dd>
+<dd class="col-sm-9">
+    <span class="badge {{ order.get_status_css_class }}">
+        {{ order.get_status_display }}
+    </span>
+</dd>
 
                     <dt class="col-sm-3">Дата создания:</dt>
                     <dd class="col-sm-9">{{ order.date_created|date:"d.m.Y H:i" }}</dd>
