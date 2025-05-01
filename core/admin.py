@@ -35,10 +35,11 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('client_name', 'master', 'rating_stars', 'created_at', 'is_published')
-    list_filter = ('rating', 'is_published', 'master')
+    list_filter = ('is_published', 'rating', 'master')
     list_editable = ('is_published',)
     search_fields = ('client_name', 'text')
     date_hierarchy = 'created_at'
+    actions = ['publish_reviews', 'unpublish_reviews']
     
     def rating_stars(self, obj):
         return format_html(
@@ -46,3 +47,11 @@ class ReviewAdmin(admin.ModelAdmin):
             '★' * obj.rating + '☆' * (5 - obj.rating)
         )
     rating_stars.short_description = 'Рейтинг'
+    
+    def publish_reviews(self, request, queryset):
+        queryset.update(is_published=True)
+    publish_reviews.short_description = "Опубликовать выбранные отзывы"
+    
+    def unpublish_reviews(self, request, queryset):
+        queryset.update(is_published=False)
+    unpublish_reviews.short_description = "Снять с публикации выбранные отзывы"
