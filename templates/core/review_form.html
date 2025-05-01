@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Оставить отзыв</h2>
+    <form id="review-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Поле мастера -->
+        <div class="mb-3">
+            {{ form.master.label_tag }}
+            {{ form.master }}
+        </div>
+
+        <!-- Информация о мастере (AJAX) -->
+        <div id="master-info" class="mb-4"></div>
+
+        <!-- Рейтинг -->
+        <div class="mb-3">
+            <label class="form-label">Оценка</label>
+            <div class="star-rating">
+                {% for i in '12345'|make_list %}
+                <i class="bi bi-star fs-3" data-rating="{{ forloop.counter }}"></i>
+                {% endfor %}
+            </div>
+            {{ form.rating }}
+        </div>
+
+        <!-- Остальные поля -->
+        <div class="mb-3">
+            {{ form.client_name.label_tag }}
+            {{ form.client_name }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.text.label_tag }}
+            {{ form.text }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.photo.label_tag }}
+            {{ form.photo }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/reviews.js' %}"></script>
+{% endblock %}
