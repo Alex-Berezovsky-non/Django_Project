@@ -129,3 +129,27 @@ body {
     color: var(--text-secondary) !important;
     opacity: 1 !important;
 }
+.star-rating {
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.star-rating i {
+    transition: all 0.2s;
+    color: var(--text-secondary);
+}
+
+.star-rating .bi-star-fill {
+    color: var(--accent-gold) !important;
+    transform: scale(1.1);
+}
+
+.invalid-feedback {
+    color: #dc3545 !important;
+    font-size: 0.9em;
+}
+
+.spinner-border.text-warning {
+    color: var(--accent-gold) !important;
+}
