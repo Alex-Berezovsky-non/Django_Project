@@ -5,6 +5,8 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from .models import Master, Service, Order, Review
+from django.http import JsonResponse
+from.forms import ReviewForm
 
 def landing(request):
     masters = Master.objects.filter(is_active=True)
@@ -76,4 +78,31 @@ class ServiceCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['form_title'] = 'Создание новой услуги'
         return context
+    
+def create_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.is_published = False  # Модерация отзывов
+            review.save()
+            return redirect('thanks')
+    else:
+        form = ReviewForm()
+    return render(request, 'core/review_form.html', {'form': form})
+
+def get_master_info(request):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        master_id = request.GET.get('master_id')
+        try:
+            master = Master.objects.get(pk=master_id)
+            data = {
+                'name': master.name,
+                'experience': master.experience,
+                'photo': master.photo.url if master.photo else None,
+            }
+            return JsonResponse(data)
+        except Master.DoesNotExist:
+            return JsonResponse({'error': 'Мастер не найден'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
