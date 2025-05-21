@@ -21,8 +21,8 @@ async def async_send_telegram_message(token, chat_id, message, parse_mode="Markd
 def send_telegram_message(token, chat_id, message):
     async_to_sync(async_send_telegram_message)(token, chat_id, message)
 
-send_telegram_message(
-    os.getenv("TELEGRAM_BOT_API_KEY"),
-    os.getenv("TELEGRAM_USER_ID"),
-    "Тестовое сообщение"
-)
+# send_telegram_message(
+#     os.getenv("TELEGRAM_BOT_API_KEY"),
+#     os.getenv("TELEGRAM_USER_ID"),
+#     "Тестовое сообщение"
+# )
