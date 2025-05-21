@@ -95,3 +95,6 @@ if DEBUG:
     STATIC_ROOT = BASE_DIR / 'staticfiles'
 else:
     STATIC_ROOT = BASE_DIR / 'static'
+
+TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
+TELEGRAM_USER_ID = os.getenv("TELEGRAM_USER_ID")

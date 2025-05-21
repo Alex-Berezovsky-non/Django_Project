@@ -8,7 +8,7 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name='landing'),
-    path('/thanks/', views.thanks, name='thanks'),
+    path('thanks/', views.thanks, name='thanks'),
     path('orders/', login_required(views.orders_list), name='orders_list'),
     path('orders/<int:pk>/', login_required(views.order_detail), name='order_detail'),
     path('services/create/', views.ServiceCreateView.as_view(), name='service_create'),

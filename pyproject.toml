@@ -3,7 +3,7 @@ name = "barbershoptest"
 version = "0.1.0"
 description = "Учебный проект Барбершоп"
 authors = [
-    {name = "Alex Berezovsky",email = "oxonkoalexey@gmail.com"}
+    {name = "Alex Berezovsky", email = "oxonkoalexey@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12,<3.14"  
@@ -13,9 +13,9 @@ dependencies = [
     "markdown (>=3.7,<4.0)",
     "python-dotenv (>=1.0.1,<2.0.0)",
     "django-extensions (>=4.1,<5.0)",
-    "pillow (>=11.2.1,<12.0.0)"
+    "pillow (>=11.2.1,<12.0.0)",
+    "python-telegram-bot (>=21.0,<22.0)",
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
