@@ -1,11 +1,11 @@
-# users/views.py
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import redirect
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from .forms import UserLoginForm, UserRegisterForm
+from django.utils.http import url_has_allowed_host_and_scheme 
 
 class UserRegisterView(CreateView):
     form_class = UserRegisterForm
@@ -21,7 +21,7 @@ class UserRegisterView(CreateView):
         response = super().form_valid(form)
         user = form.save()
         login(self.request, user)
-        messages.success(self.request, 'Регистрация прошла успешно! Добро пожаловать!')
+        messages.success(self.request, '🎉 Регистрация прошла успешно! Добро пожаловать!')
         return response
     
     def form_invalid(self, form):
@@ -39,9 +39,15 @@ class UserLoginView(LoginView):
     redirect_authenticated_user = True
     
     def get_success_url(self):
-        messages.success(self.request, f'Добро пожаловать, {self.request.user.username}!')
+        messages.success(self.request, f'✅ Вход выполнен успешно! Добро пожаловать, {self.request.user.username}!')
         next_url = self.request.GET.get('next')
-        return next_url or reverse_lazy('landing')
+        if next_url and url_has_allowed_host_and_scheme(
+            url=next_url,
+            allowed_hosts={self.request.get_host()},
+            require_https=self.request.is_secure()
+        ):
+            return next_url
+        return reverse_lazy('landing')
     
     def form_invalid(self, form):
         messages.error(self.request, 'Неверное имя пользователя или пароль')
@@ -52,10 +58,12 @@ class UserLoginView(LoginView):
         context['title'] = 'Вход в систему'
         return context
 
-class UserLogoutView(LogoutView):
-    next_page = reverse_lazy('landing')
-    
-    def dispatch(self, request, *args, **kwargs):
+class UserLogoutView(View):
+    def post(self, request):
         if request.user.is_authenticated:
-            messages.info(request, 'Вы успешно вышли из системы')
-        return super().dispatch(request, *args, **kwargs)
+            messages.info(request, '👋 Вы успешно вышли из системы. До новых встреч!')
+            logout(request)
+        return redirect(reverse_lazy('landing'))
+    
+    def get(self, request):
+        return render(request, 'users/logout_confirm.html')

@@ -18,21 +18,17 @@
 <body>
     {% block header %}
         {% include 'includes/menu.html' %}
-
-        <div class="position-absolute top-0 end-0 mt-3 me-3">
-            {% if user.is_authenticated %}
-                <div class="d-flex align-items-center">
-                    <span class="text-white me-2">Привет, {{ user.username }}!</span>
-                    <a href="{% url 'users:logout' %}" class="btn btn-sm btn-outline-light">Выйти</a>
-                </div>
-            {% else %}
-                <div class="d-flex">
-                    <a href="{% url 'users:login' %}" class="btn btn-sm btn-outline-light me-2">Войти</a>
-                    <a href="{% url 'users:register' %}" class="btn btn-sm btn-primary">Регистрация</a>
-                </div>
-            {% endif %}
-        </div>
     {% endblock %}
+    <div class="container mt-5">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
     <main class="container">
         {% block content %}{% endblock %}

@@ -153,3 +153,22 @@ body {
 .spinner-border.text-warning {
     color: var(--accent-gold) !important;
 }
+/* main.css */
+.btn-gold {
+    background: linear-gradient(135deg, #C5A059 0%, #9E7E47 100%);
+    color: #000 !important;
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-gold:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
