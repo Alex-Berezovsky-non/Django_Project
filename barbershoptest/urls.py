@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include  # Добавьте include
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,6 +14,7 @@ urlpatterns = [
     path('services/create/', views.ServiceCreateView.as_view(), name='service_create'),
     path('review/create/', views.create_review, name='create_review'),
     path('api/master-info/', views.get_master_info, name='get_master_info'),
+    path('users/', include('users.urls', namespace='users')),
 ]
 
 if settings.DEBUG:
