@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "core.apps.CoreConfig",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -102,3 +103,12 @@ else:
 TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
 TELEGRAM_USER_ID = os.getenv("TELEGRAM_USER_ID")
 BASE_URL = os.getenv("BASE_URL")
+
+# Настройки аутентификации
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'landing'  # Перенаправление после входа
+LOGOUT_REDIRECT_URL = 'landing'  # Перенаправление после выхода
