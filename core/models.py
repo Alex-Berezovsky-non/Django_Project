@@ -18,26 +18,51 @@ class Service(models.Model):
     class Meta:                 
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
-
         indexes = [
             models.Index(fields=['is_popular']),          
             models.Index(fields=['price']),               
         ]
+
 class Master(models.Model):
     name = models.CharField(max_length=150, verbose_name="Имя")
-    photo = models.ImageField(upload_to="masters/", default='masters/default_master.jpg', blank=True, null=True, verbose_name="Фотография")
+    photo = models.ImageField(
+        upload_to="masters/", 
+        default='masters/default_master.jpg', 
+        blank=True, 
+        null=True, 
+        verbose_name="Фотография"
+    )
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     address = models.CharField(max_length=255, verbose_name="Адрес")
-    experience = models.PositiveIntegerField(verbose_name="Стаж работы", help_text="Опыт работы в годах")
-    services = models.ManyToManyField(Service, related_name="masters", verbose_name="Услуги")
+    experience = models.PositiveIntegerField(
+        verbose_name="Стаж работы", 
+        help_text="Опыт работы в годах"
+    )
+    services = models.ManyToManyField(
+        Service, 
+        related_name="masters", 
+        verbose_name="Услуги"
+    )
     is_active = models.BooleanField(default=True, verbose_name="Активен")
+    view_count = models.PositiveIntegerField(
+        default=0, 
+        verbose_name="Количество просмотров",
+        help_text="Сколько раз просмотрена страница мастера"
+    )
 
     def __str__(self):          
         return str(self.name)   
+    
+    def get_reviews(self):
+        """Возвращает опубликованные отзывы о мастере"""
+        return self.reviews.filter(is_published=True)
 
     class Meta:                 
         verbose_name = "Мастер"
         verbose_name_plural = "Мастера"
+        indexes = [
+            models.Index(fields=['is_active']),
+        ]
 
 class Order(models.Model):
     STATUS_NOT_APPROVED = 'not_approved'
@@ -97,23 +122,37 @@ class Order(models.Model):
         ordering = ['-date_created'] 
         indexes = [
             models.Index(fields=['status', '-date_created']),
+            models.Index(fields=['appointment_date']),
         ]
 
 class Review(models.Model):
     text = models.TextField(verbose_name="Текст отзыва")
     client_name = models.CharField(max_length=100, blank=True, verbose_name="Имя клиента")
     master = models.ForeignKey(
-            Master,
-            on_delete=models.CASCADE,
-            verbose_name="Мастер"
+        Master,
+        on_delete=models.CASCADE,
+        verbose_name="Мастер",
+        related_name="reviews",
     )
-    photo = models.ImageField(upload_to="reviews/", blank=True, null=True, verbose_name="Фотография")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    photo = models.ImageField(
+        upload_to="reviews/", 
+        blank=True, 
+        null=True, 
+        verbose_name="Фотография"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, 
+        verbose_name="Дата создания"
+    )
     rating = models.PositiveSmallIntegerField(
-            validators=[MinValueValidator(1), MaxValueValidator(5)],
-            verbose_name="Оценка"
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Оценка"
     )
-    is_published = models.BooleanField(default=True, verbose_name="Опубликован")
+    is_published = models.BooleanField(
+        default=True, 
+        verbose_name="Опубликован",
+        help_text="Отображать ли отзыв на сайте"
+    )
     
     def __str__(self):
         return f"Отзыв от {self.client_name}"
@@ -121,3 +160,8 @@ class Review(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['is_published', 'rating']),
+            models.Index(fields=['created_at']),
+        ]
