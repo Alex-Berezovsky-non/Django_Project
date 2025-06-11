@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container my-5">
     <h2 class="mb-4">Оставить отзыв</h2>
-    <form id="review-form" method="post" enctype="multipart/form-data">
+    <form id="review-form" method="post" enctype="multipart/form-data" action="{% url 'create_review' %}">
         {% csrf_token %}
         
         <!-- Поле мастера -->

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Список услуг{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Список услуг</h1>
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'service_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Добавить услугу
+        </a>
+    </div>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for service in services %}
+        <div class="col">
+            <div class="card h-100 shadow">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text">{{ service.description|truncatechars:100 }}</p>
+                    <p class="fw-bold">{{ service.price }} руб.</p>
+                    <p><i class="bi bi-clock"></i> {{ service.duration }} мин.</p>
+                    
+                    {% if service.is_popular %}
+                        <span class="badge bg-warning text-dark">Популярная</span>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'service_update' service.pk %}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-pencil"></i> Редактировать
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Нет доступных услуг
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
