@@ -3,7 +3,7 @@ from .models import Review, Master, Order, Service
 
 class ReviewForm(forms.ModelForm):
     master = forms.ModelChoiceField(
-        queryset=Master.objects.all(),
+        queryset=Master.objects.filter(is_active=True),
         label="Мастер",
         widget=forms.Select(attrs={'class': 'form-select'})
     )
@@ -34,21 +34,51 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ['client_name', 'phone', 'master', 'services', 'appointment_date', 'comment']
         widgets = {
-            'appointment_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'client_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'master': forms.Select(attrs={'class': 'form-select'}),
-            'services': forms.SelectMultiple(attrs={'class': 'form-select'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'client_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваше полное имя'
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '+7 (999) 999-99-99'
+            }),
+            'master': forms.Select(attrs={
+                'class': 'form-select',
+                'id': 'id_master'
+            }),
+            'services': forms.SelectMultiple(attrs={
+                'class': 'form-select',
+                'id': 'id_services'
+            }),
+            'appointment_date': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'
+            }),
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Ваши пожелания...'
+            }),
         }
         labels = {
-            'client_name': 'Имя клиента',
+            'client_name': 'Ваше имя',
             'phone': 'Телефон',
             'master': 'Мастер',
             'services': 'Услуги',
             'appointment_date': 'Дата и время записи',
-            'comment': 'Комментарий'
+            'comment': 'Комментарий (необязательно)'
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['master'].queryset = Master.objects.filter(is_active=True)
+        self.fields['services'].queryset = Service.objects.all()
+
+        self.fields['client_name'].required = True
+        self.fields['phone'].required = True
+        self.fields['master'].required = True
+        self.fields['services'].required = True
+        self.fields['appointment_date'].required = True
 
 class ServiceForm(forms.ModelForm):
     class Meta:
@@ -59,12 +89,13 @@ class ServiceForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'duration': forms.NumberInput(attrs={'class': 'form-control'}),
+            'is_popular': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'name': 'Название услуги',
             'description': 'Описание',
-            'price': 'Цена',
+            'price': 'Цена (руб.)',
             'duration': 'Длительность (мин)',
             'is_popular': 'Популярная услуга',
             'image': 'Изображение'
@@ -80,5 +111,5 @@ class ServiceEasyForm(forms.ModelForm):
         }
         labels = {
             'name': 'Название услуги',
-            'price': 'Цена',
+            'price': 'Цена (руб.)',
         }

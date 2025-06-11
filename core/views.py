@@ -8,6 +8,9 @@ from django.utils import timezone
 from core.models import Master, Service, Order, Review
 from core.forms import ReviewForm, OrderForm, ServiceForm, ServiceEasyForm
 from core.mixins import StaffRequiredMixin
+import logging
+
+logger = logging.getLogger(__name__)
 
 class LandingPageView(TemplateView):
     template_name = 'landing.html'
@@ -35,8 +38,7 @@ class OrdersListView(LoginRequiredMixin, StaffRequiredMixin, ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset().order_by('-date_created')
-        
-        # Фильтрация и поиск
+
         search_query = self.request.GET.get('q', '')
         search_fields = self.request.GET.getlist('fields')
         status_filter = self.request.GET.get('status')
@@ -86,7 +88,6 @@ class MasterDetailView(DetailView):
     pk_url_kwarg = 'master_id'
     
     def get_queryset(self):
-        # Используем Prefetch для оптимизации и фильтрации отзывов
         return super().get_queryset().prefetch_related(
             'services',
             Prefetch(
@@ -99,11 +100,9 @@ class MasterDetailView(DetailView):
     def get_object(self, queryset=None):
         master = super().get_object(queryset)
         
-        # Увеличиваем счетчик просмотров атомарно
         Master.objects.filter(pk=master.pk).update(view_count=F('view_count') + 1)
         master.refresh_from_db()
         
-        # Сохраняем просмотр в сессии
         viewed_masters = self.request.session.get('viewed_masters', [])
         if master.id not in viewed_masters:
             viewed_masters.append(master.id)
@@ -114,7 +113,6 @@ class MasterDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         master = context['master']
-        # Используем предварительно загруженные и отфильтрованные отзывы
         context['reviews'] = master.published_reviews
         context['services'] = master.services.all()
         context['title'] = f'Мастер: {master.name}'
@@ -173,14 +171,26 @@ class OrderCreateView(CreateView):
     model = Order
     form_class = OrderForm
     template_name = 'core/order_create.html'
+    success_url = reverse_lazy('landing')
     
     def get_success_url(self):
         return reverse_lazy('thanks', kwargs={'source': 'order'})
     
     def form_valid(self, form):
+        form.instance.status = 'pending'
         response = super().form_valid(form)
-        messages.success(self.request, 'Заказ успешно создан!')
+        messages.success(
+            self.request, 
+            'Запись успешно создана! Мы свяжемся с вами для подтверждения.'
+        )
         return response
+    
+    def form_invalid(self, form):
+        messages.error(
+            self.request, 
+            'Пожалуйста, исправьте ошибки в форме'
+        )
+        return super().form_invalid(form)
 
 class ReviewCreateView(CreateView):
     model = Review
@@ -209,11 +219,38 @@ class MastersServicesAjaxView(View):
     
     def get_services_json_response(self, master_id):
         try:
-            master = Master.objects.get(pk=master_id)
-            services = list(master.services.values('id', 'name', 'price'))
-            return JsonResponse({'services': services})
+            logger.info(f"Запрос услуг для мастера ID: {master_id}")
+            master = Master.objects.get(pk=master_id, is_active=True)
+            logger.info(f"Найден мастер: {master.name}")
+            
+            services = master.services.all()
+            logger.info(f"Найдено услуг: {services.count()}")
+            
+            services_data = [{
+                'id': service.id,
+                'name': service.name,
+                'price': str(service.price) 
+            } for service in services]
+            
+            return JsonResponse({
+                'services': services_data,
+                'master_name': master.name
+            })
         except Master.DoesNotExist:
-            return JsonResponse({'error': 'Мастер не найден'}, status=404)
+            logger.error(f"Мастер с ID {master_id} не найден или не активен")
+            return JsonResponse({
+                'error': 'Мастер не найден или не активен'
+            }, status=404)
+        except ValueError:
+            logger.error(f"Неверный формат ID мастера: {master_id}")
+            return JsonResponse({
+                'error': 'Неверный формат ID мастера'
+            }, status=400)
+        except Exception as e:
+            logger.exception(f"Неожиданная ошибка: {str(e)}")
+            return JsonResponse({
+                'error': 'Внутренняя ошибка сервера'
+            }, status=500)
 
 class MasterInfoAjaxView(View):
     def get(self, request, *args, **kwargs):
@@ -227,13 +264,15 @@ class MasterInfoAjaxView(View):
             return JsonResponse({'error': 'Master ID is required'}, status=400)
         
         try:
-            master = Master.objects.get(pk=master_id)
+            master = Master.objects.get(pk=master_id, is_active=True)
             data = {
                 'name': master.name,
                 'experience': master.experience,
                 'photo': master.photo.url if master.photo else None,
-                'services': [s.name for s in master.services.all()]
+                'services': [s.name for s in master.services.all()],
             }
             return JsonResponse(data)
         except Master.DoesNotExist:
-            return JsonResponse({'error': 'Мастер не найден'}, status=404)
+            return JsonResponse({
+                'error': 'Мастер не найден или не активен'
+            }, status=404)

@@ -1,17 +1,131 @@
 {% extends 'base.html' %}
 
-{% block title %}Создание заказа{% endblock %}
+{% block title %}Онлайн-запись{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Создание заказа</h1>
+    <h1 class="mb-4 text-center">Онлайн-запись</h1>
     
-    <form method="post">
+    <form method="post" id="order-form">
         {% csrf_token %}
+        
         <div class="mb-3">
-            {{ form.as_p }}
+            <label for="id_client_name" class="form-label">Ваше имя</label>
+            {{ form.client_name }}
+            {% if form.client_name.errors %}
+                <div class="invalid-feedback">
+                    {{ form.client_name.errors }}
+                </div>
+            {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Создать заказ</button>
+        
+        <div class="mb-3">
+            <label for="id_phone" class="form-label">Телефон</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="invalid-feedback">
+                    {{ form.phone.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_master" class="form-label">Выберите мастера</label>
+            {{ form.master }}
+            {% if form.master.errors %}
+                <div class="invalid-feedback">
+                    {{ form.master.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_services" class="form-label">Выберите услуги</label>
+            {{ form.services }}
+            {% if form.services.errors %}
+                <div class="invalid-feedback">
+                    {{ form.services.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_appointment_date" class="form-label">Дата и время записи</label>
+            {{ form.appointment_date }}
+            {% if form.appointment_date.errors %}
+                <div class="invalid-feedback">
+                    {{ form.appointment_date.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_comment" class="form-label">Комментарий (необязательно)</label>
+            {{ form.comment }}
+            {% if form.comment.errors %}
+                <div class="invalid-feedback">
+                    {{ form.comment.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-gold btn-lg">Записаться</button>
+        </div>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const masterSelect = document.getElementById('id_master');
+    const servicesSelect = document.getElementById('id_services');
+
+    function loadMasterServices(masterId) {
+        if (!masterId) return;
+        servicesSelect.disabled = true;
+        servicesSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
+        
+        fetch(`/api/master-services/?master_id=${masterId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                servicesSelect.innerHTML = '';
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                if (data.services && data.services.length > 0) {
+                    data.services.forEach(service => {
+                        const option = document.createElement('option');
+                        option.value = service.id;
+                        option.textContent = `${service.name} - ${service.price} руб.`;
+                        servicesSelect.appendChild(option);
+                    });
+                } else {
+                    servicesSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
+                }
+                servicesSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки услуг:', error);
+                servicesSelect.innerHTML = `<option value="">Ошибка: ${error.message}</option>`;
+                servicesSelect.disabled = false;
+            });
+    }
+
+    masterSelect.addEventListener('change', function() {
+        loadMasterServices(this.value);
+    });
+    if (masterSelect.value) {
+        loadMasterServices(masterSelect.value);
+    } else {
+        servicesSelect.innerHTML = '<option value="">Сначала выберите мастера</option>';
+    }
+});
+</script>
 {% endblock %}
