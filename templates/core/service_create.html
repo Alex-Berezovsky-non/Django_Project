@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Создать услугу</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{% url 'service_create' %}">
         {% csrf_token %}
         <div class="mb-3">
             {{ form.name.label_tag }}
