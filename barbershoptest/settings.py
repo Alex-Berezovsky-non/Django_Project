@@ -107,8 +107,21 @@ BASE_URL = os.getenv("BASE_URL")
 # Настройки аутентификации
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'users.backends.EmailAuthBackend',  # Кастомный бэкенд для входа по email
 ]
 
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'landing'  # Перенаправление после входа
 LOGOUT_REDIRECT_URL = 'landing'  # Перенаправление после выхода
+
+# Настройки email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Вывод писем в консоль
+
+# Для реальной отправки email (раскомментировать в продакшене)
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_USE_SSL = True
+# EMAIL_HOST_USER = 'ваш-email@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'ваш-пароль'
+# DEFAULT_FROM_EMAIL = 'ваш-email@yandex.ru'
