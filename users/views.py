@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect, render
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, View
 from .forms import UserLoginForm, UserRegisterForm
 from django.utils.http import url_has_allowed_host_and_scheme 
+from django.conf import settings
 
 class UserRegisterView(CreateView):
     form_class = UserRegisterForm
@@ -20,7 +21,9 @@ class UserRegisterView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         user = form.save()
+        user.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(self.request, user)
+        
         messages.success(self.request, '🎉 Регистрация прошла успешно! Добро пожаловать!')
         return response
     
@@ -58,12 +61,11 @@ class UserLoginView(LoginView):
         context['title'] = 'Вход в систему'
         return context
 
-class UserLogoutView(View):
-    def post(self, request):
+class UserLogoutView(LogoutView):
+    next_page = reverse_lazy('landing')
+    template_name = 'users/logout.html'
+    
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             messages.info(request, '👋 Вы успешно вышли из системы. До новых встреч!')
-            logout(request)
-        return redirect(reverse_lazy('landing'))
-    
-    def get(self, request):
-        return render(request, 'users/logout_confirm.html')
+        return super().dispatch(request, *args, **kwargs)
