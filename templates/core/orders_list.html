@@ -1,108 +1,122 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Список заявок{% endblock %}
+{% block title %}Список заявок | The Victorian Barber{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Список заявок</h1>
-        <a href="{% url 'landing' %}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> На главную
+        <h1><i class="bi bi-list-check me-2"></i>Список заявок</h1>
+        <a href="{% url 'landing' %}" class="btn btn-gold">
+            <i class="bi bi-arrow-left me-1"></i> На главную
         </a>
     </div>
 
     <!-- Форма поиска -->
-    <form method="GET" class="mb-4 border p-3 rounded bg-dark-95">
-        <div class="input-group">
-            <input type="text" 
-                   name="q" 
-                   class="form-control" 
-                   placeholder="Поиск по заявкам..." 
-                   value="{{ search_query }}"
-                   aria-label="Поиск по заявкам">
-            <button type="submit" class="btn btn-gold">
-                <i class="bi bi-search"></i> Найти
-            </button>
+    <div class="card card-victory mb-4">
+        <div class="card-body">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" 
+                           name="q" 
+                           class="form-control" 
+                           placeholder="Поиск по заявкам..." 
+                           value="{{ search_query }}"
+                           aria-label="Поиск по заявкам">
+                    <button type="submit" class="btn btn-gold">
+                        <i class="bi bi-search me-1"></i> Найти
+                    </button>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label class="form-label fs-5">Статус</label>
+                        <select name="status" class="form-select">
+                            <option value="">Все статусы</option>
+                            <option value="not_approved" {% if request.GET.status == 'not_approved' %}selected{% endif %}>Не подтвержден</option>
+                            <option value="approved" {% if request.GET.status == 'approved' %}selected{% endif %}>Подтвержден</option>
+                            <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Выполнен</option>
+                            <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>Отменен</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fs-5">Дата от</label>
+                        <input type="date" name="date_from" class="form-control" value="{{ request.GET.date_from }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fs-5">Поля поиска</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       name="fields" 
+                                       value="client" 
+                                       id="clientCheck" 
+                                       {% if "client" in search_fields %}checked{% endif %}>
+                                <label class="form-check-label fs-5" for="clientCheck">По имени</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       name="fields" 
+                                       value="phone" 
+                                       id="phoneCheck"
+                                       {% if "phone" in search_fields %}checked{% endif %}>
+                                <label class="form-check-label fs-5" for="phoneCheck">По телефону</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        
-        <div class="mt-3">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" 
-                       type="checkbox" 
-                       name="fields" 
-                       value="client" 
-                       id="clientCheck" 
-                       {% if "client" in search_fields %}checked{% endif %}>
-                <label class="form-check-label" for="clientCheck">По имени</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" 
-                       type="checkbox" 
-                       name="fields" 
-                       value="phone" 
-                       id="phoneCheck"
-                       {% if "phone" in search_fields %}checked{% endif %}>
-                <label class="form-check-label" for="phoneCheck">По телефону</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" 
-                       type="checkbox" 
-                       name="fields" 
-                       value="comment" 
-                       id="commentCheck"
-                       {% if "comment" in search_fields %}checked{% endif %}>
-                <label class="form-check-label" for="commentCheck">По комментарию</label>
-            </div>
-        </div>
-    </form>
+    </div>
 
     <!-- Список заявок -->
     {% if orders %}
         <div class="row row-cols-1 row-cols-md-2 g-4">
             {% for order in orders %}
                 <div class="col">
-                    <div class="card h-100 border-warning shadow-sm">
-                        <div class="card-header bg-dark-90">
-                            <h5 class="card-title mb-0 text-gradient">
+                    <div class="card card-victory h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0 fs-5"> 
                                 Заказ #{{ order.id }}
                                 <span class="float-end">
-                                    <span class="badge {{ order.get_status_css_class }}">
+                                    <span class="badge {{ order.get_status_css_class }} fs-5">
                                         {{ order.get_status_display }}
                                     </span>
                                 </span>
                             </h5>
                         </div>
-                        <div class="card-body bg-dark-95">
+                        <div class="card-body">
                             <div class="mb-3">
-                                <h6 class="text-accent mb-1">
-                                    <i class="bi bi-person-fill"></i> Клиент
+                                <h6 class="text-accent mb-1 fs-5">
+                                    <i class="bi bi-person"></i> Клиент
                                 </h6>
-                                <p>{{ order.client_name }}</p>
+                                <p class="fs-5">{{ order.client_name }}</p>
                             </div>
                             
                             <div class="mb-3">
-                                <h6 class="text-accent mb-1">
-                                    <i class="bi bi-telephone-fill"></i> Телефон
+                                <h6 class="text-accent mb-1 fs-5">
+                                    <i class="bi bi-telephone"></i> Телефон
                                 </h6>
-                                <p>{{ order.phone }}</p>
+                                <p class="fs-5">{{ order.phone }}</p>
                             </div>
                             
                             <div class="mb-3">
-                                <h6 class="text-accent mb-1">
+                                <h6 class="text-accent mb-1 fs-5">
                                     <i class="bi bi-calendar-event"></i> Дата записи
                                 </h6>
-                                <p>{{ order.appointment_date|date:"d.m.Y H:i" }}</p>
+                                <p class="fs-5">{{ order.appointment_date|date:"d.m.Y H:i" }}</p>
                             </div>
                         </div>
-                        <div class="card-footer bg-dark-90 border-top-warning">
+                        <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">
+                                <small class="text-muted fs-5">
                                     Создано: {{ order.date_created|date:"d.m.Y H:i" }}
                                 </small>
                                 <a href="{% url 'order_detail' order.id %}" 
                                    class="btn btn-sm btn-gold">
-                                    <i class="bi bi-eye-fill"></i> Подробнее
+                                    <i class="bi bi-eye me-1"></i> Подробнее
                                 </a>
                             </div>
                         </div>
@@ -111,18 +125,22 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-warning text-center">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            Заявки не найдены
+        <div class="card card-victory">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-exclamation-triangle fs-1 text-warning mb-3"></i>
+                <h4>Заявки не найдены</h4>
+                <p class="fs-5">Попробуйте изменить параметры поиска</p>
+            </div>
         </div>
     {% endif %}
 
+    <!-- Пагинация -->
     {% if is_paginated %}
         <nav class="mt-4">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link bg-dark border-warning text-gold" 
+                        <a class="page-link fs-5" 
                            href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
                             &laquo; Назад
                         </a>
@@ -132,11 +150,11 @@
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <li class="page-item active">
-                            <span class="page-link bg-gold border-warning">{{ num }}</span>
+                            <span class="page-link fs-5">{{ num }}</span>
                         </li>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                         <li class="page-item">
-                            <a class="page-link bg-dark border-warning text-gold" 
+                            <a class="page-link fs-5" 
                                href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">
                                 {{ num }}
                             </a>
@@ -146,7 +164,7 @@
                 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link bg-dark border-warning text-gold" 
+                        <a class="page-link fs-5" 
                            href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">
                             Вперед &raquo;
                         </a>

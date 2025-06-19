@@ -1,71 +1,86 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Мастер {{ master.name }}{% endblock %}
+{% block title %}Мастер {{ master.name }} | The Victorian Barber{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="mb-3">Мастер: {{ master.name }}</h1>
+        <p class="fs-4">Истинный художник английского стиля</p>
+    </div>
+    
     <div class="row">
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-4 mb-4">
+            <div class="card card-victory">
                 {% if master.photo %}
                     <img src="{{ master.photo.url }}" class="card-img-top" alt="{{ master.name }}">
                 {% else %}
-                    <div class="text-center py-5 bg-light">
+                    <div class="text-center py-5">
                         <i class="bi bi-person-circle fs-1 text-muted"></i>
                     </div>
                 {% endif %}
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h2 class="card-title">{{ master.name }}</h2>
-                    <p class="card-text">
+                    <p class="card-text fs-5">
                         <i class="bi bi-star-fill text-warning"></i> Стаж: {{ master.experience }} лет
                     </p>
-                    <p class="card-text">
-                        <i class="bi bi-telephone-fill"></i> {{ master.phone }}
+                    <p class="card-text fs-5">
+                        <i class="bi bi-telephone"></i> {{ master.phone }}
                     </p>
-                    <p class="card-text">
-                        <i class="bi bi-geo-alt-fill"></i> {{ master.address }}
+                    <p class="card-text fs-5">
+                        <i class="bi bi-geo-alt"></i> {{ master.address }}
                     </p>
                 </div>
             </div>
         </div>
         
         <div class="col-md-8">
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Услуги мастера</h3>
+            <div class="card card-victory mb-4">
+                <div class="card-header text-center">
+                    <h3 class="mb-0"><i class="bi bi-scissors me-2"></i>Услуги мастера</h3>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group">
+                    <ul class="list-group list-group-flush">
                         {% for service in master.services.all %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs-5">
                                 {{ service.name }}
-                                <span class="badge bg-primary rounded-pill">{{ service.price }} руб.</span>
+                                <span class="badge bg-gold fs-5">{{ service.price }} руб.</span>
                             </li>
                         {% empty %}
-                            <li class="list-group-item">Нет доступных услуг</li>
+                            <li class="list-group-item text-center fs-5">Нет доступных услуг</li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
             
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <h3 class="mb-0">Отзывы</h3>
+            <div class="card card-victory">
+                <div class="card-header text-center">
+                    <h3 class="mb-0"><i class="bi bi-chat-quote me-2"></i>Отзывы</h3>
                 </div>
                 <div class="card-body">
                     {% for review in master.get_reviews %}
-                        <div class="mb-3">
-                            <strong>{{ review.client_name }}</strong>
-                            <div class="text-warning">
-                                {% for i in "12345" %}
-                                    {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
-                                {% endfor %}
+                        <div class="mb-4 p-3" style="background: rgba(245, 240, 225, 0.5); border-left: 3px solid var(--victory-gold);">
+                            <div class="d-flex justify-content-between">
+                                <strong class="fs-4">{{ review.client_name }}</strong>
+                                <div class="text-warning">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="bi bi-star-fill fs-5"></i>
+                                        {% else %}
+                                            <i class="bi bi-star fs-5"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <p>{{ review.text }}</p>
-                            <small class="text-muted">{{ review.created_at|date:"d.m.Y" }}</small>
+                            <p class="mb-1 mt-2 fs-4">{{ review.text }}</p> 
+                            <small class="text-muted fs-5">
+                                <i class="bi bi-person"></i> Мастер: {{ review.master.name }} | 
+                                {{ review.created_at|date:"d.m.Y" }}
+                            </small>
                         </div>
                     {% empty %}
-                        <p>Пока нет отзывов</p>
+                        <p class="text-center fs-4">Пока нет отзывов</p>
                     {% endfor %}
                 </div>
             </div>

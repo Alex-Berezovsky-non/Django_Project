@@ -4,15 +4,15 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Редактирование услуги: {{ object.name }}</h2>
+    <h2 class="fs-3">Редактирование услуги: {{ object.name }}</h2> 
     
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
             {{ form.as_p }}
         </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        <a href="{% url 'services_list' %}" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-primary fs-5">Сохранить</button> 
+        <a href="{% url 'services_list' %}" class="btn btn-secondary fs-5">Отмена</a> 
     </form>
 </div>
 {% endblock %}

@@ -1,14 +1,9 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid px-2">
-        <a class="navbar-brand" href="{% url 'landing' %}">
-            <img src="{% static 'images/logo.jpg' %}" 
-                 alt="Логотип" 
-                 style="height: 40px; 
-                        margin-right: 10px;
-                        object-fit: cover;
-                        border-radius: 3px;">
-            <i class="bi bi-scissors me-2"></i>Стильная Борода
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'landing' %}">
+            <img src="{% static 'images/logo.webp' %}" alt="The Victorian Barber" class="navbar-logo me-2">
+            <span class="d-none d-md-inline">The Victorian Barber</span>
         </a>
 
         <button class="navbar-toggler" 
@@ -21,60 +16,51 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-gold px-2" href="{% url 'landing' %}#about">
-                        <i class="bi bi-info-circle me-1"></i>О нас
+                    <a class="nav-link px-2" href="{% url 'landing' %}#about">
+                        <i class="bi bi-building me-1"></i> О нас
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-gold px-2" href="{% url 'landing' %}#services">
-                        <i class="bi bi-scissors me-1"></i>Услуги
+                    <a class="nav-link px-2" href="{% url 'landing' %}#services">
+                        <i class="bi bi-shop me-1"></i> Услуги
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-gold px-2" href="{% url 'landing' %}#masters">
-                        <i class="bi bi-people me-1"></i>Мастера
+                    <a class="nav-link px-2" href="{% url 'landing' %}#masters">
+                        <i class="bi bi-people me-1"></i> Мастера
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-gold px-2" href="{% url 'landing' %}#booking">
-                        <i class="bi bi-calendar-check me-1"></i>Запись
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-gold px-2" href="{% url 'landing' %}#contact">
-                        <i class="bi bi-geo-alt me-1"></i>Контакты
+                    <a class="nav-link px-2" href="{% url 'landing' %}#booking">
+                        <i class="bi bi-calendar-event me-1"></i> Запись
                     </a>
                 </li>
             </ul>
 
             <div class="d-flex gap-2 align-items-center">
-                <a href="{% url 'thanks' source='general' %}" class="btn btn-gold">
-                    <i class="bi bi-heart me-2"></i>Спасибо
-                </a>
-
                 {% if user.is_staff %}
-                <a href="{% url 'orders_list' %}" class="btn btn-gold">
-                    <i class="bi bi-list-check me-2"></i>Заказы
+                <a href="{% url 'orders_list' %}" class="btn btn-sm btn-gold">
+                    <i class="bi bi-list-check me-2"></i> Заказы
                 </a>
                 {% endif %}
                 
                 <div class="d-flex gap-2 ms-2">
                     {% if user.is_authenticated %}
                         <div class="d-flex align-items-center">
-                            <span class="text-white me-2">Привет, {{ user.username }}!</span>
+                            <span class="text-light me-2">Привет, {{ user.username }}!</span>
                             <form action="{% url 'users:logout' %}" method="post" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-gold">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Выйти
+                                    <i class="bi bi-box-arrow-right me-1"></i> Выйти
                                 </button>
                             </form>
                         </div>
                     {% else %}
                         <a href="{% url 'users:login' %}" class="btn btn-sm btn-gold">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Войти
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Войти
                         </a>
                         <a href="{% url 'users:register' %}" class="btn btn-sm btn-gold">
-                            <i class="bi bi-person-plus me-1"></i>Регистрация
+                            <i class="bi bi-person-plus me-1"></i> Регистрация
                         </a>
                     {% endif %}
                 </div>

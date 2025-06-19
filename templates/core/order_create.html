@@ -1,78 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Онлайн-запись{% endblock %}
+{% block title %}Онлайн-запись | The Victorian Barber{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4 text-center">Онлайн-запись</h1>
+    <div class="text-center mb-5">
+        <h1 class="mb-4 fs-2"><i class="bi bi-calendar-plus"></i> Онлайн-запись</h1> 
+        <p class="fs-4">Забронируйте время для истинно джентльменского ухода</p> 
+    </div>
     
-    <form method="post" id="order-form">
-        {% csrf_token %}
-        
-        <div class="mb-3">
-            <label for="id_client_name" class="form-label">Ваше имя</label>
-            {{ form.client_name }}
-            {% if form.client_name.errors %}
-                <div class="invalid-feedback">
-                    {{ form.client_name.errors }}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-victory">
+                <div class="card-body">
+                    <form method="post" id="order-form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="id_client_name" class="form-label fs-5"><i class="bi bi-person me-2"></i>Ваше имя</label>
+                            {{ form.client_name }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_phone" class="form-label fs-5"><i class="bi bi-telephone me-2"></i>Телефон</label>
+                            {{ form.phone }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_master" class="form-label fs-5"><i class="bi bi-person-badge me-2"></i>Выберите мастера</label>
+                            {{ form.master }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_services" class="form-label fs-5"><i class="bi bi-scissors me-2"></i>Выберите услуги</label>
+                            {{ form.services }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_appointment_date" class="form-label fs-5"><i class="bi bi-clock me-2"></i>Дата и время записи</label>
+                            {{ form.appointment_date }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="id_comment" class="form-label fs-5"><i class="bi bi-chat-text me-2"></i>Комментарий (необязательно)</label>
+                            {{ form.comment }}
+                        </div>
+                        
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-gold btn-lg px-5 fs-5">
+                                <i class="bi bi-check-circle me-2"></i>Подтвердить запись
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            {% endif %}
+            </div>
         </div>
-        
-        <div class="mb-3">
-            <label for="id_phone" class="form-label">Телефон</label>
-            {{ form.phone }}
-            {% if form.phone.errors %}
-                <div class="invalid-feedback">
-                    {{ form.phone.errors }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="mb-3">
-            <label for="id_master" class="form-label">Выберите мастера</label>
-            {{ form.master }}
-            {% if form.master.errors %}
-                <div class="invalid-feedback">
-                    {{ form.master.errors }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="mb-3">
-            <label for="id_services" class="form-label">Выберите услуги</label>
-            {{ form.services }}
-            {% if form.services.errors %}
-                <div class="invalid-feedback">
-                    {{ form.services.errors }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="mb-3">
-            <label for="id_appointment_date" class="form-label">Дата и время записи</label>
-            {{ form.appointment_date }}
-            {% if form.appointment_date.errors %}
-                <div class="invalid-feedback">
-                    {{ form.appointment_date.errors }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="mb-3">
-            <label for="id_comment" class="form-label">Комментарий (необязательно)</label>
-            {{ form.comment }}
-            {% if form.comment.errors %}
-                <div class="invalid-feedback">
-                    {{ form.comment.errors }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="text-center">
-            <button type="submit" class="btn btn-gold btn-lg">Записаться</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 <script>
@@ -121,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     masterSelect.addEventListener('change', function() {
         loadMasterServices(this.value);
     });
+    
     if (masterSelect.value) {
         loadMasterServices(masterSelect.value);
     } else {

@@ -1,134 +1,248 @@
-/* Обновленная цветовая схема для всего проекта */
+/* Викторианская цветовая палитра */
 :root {
-    --primary-bg: #0A0A0A;
-    --secondary-bg: #1C1C1E;
-    --accent-gold: #ddca1c ;
-    --text-primary: hwb(53 27% 14%);
-    --text-secondary: #B0B0B0;
-    --border-color: rgba(197, 160, 89, 0.3);
-    --btn-bg: linear-gradient(135deg, #C5A059 0%, #9E7E47 100%);
+    --victory-burgundy: #8B0000;
+    --victory-gold: #D4AF37;
+    --victory-ivory: #FFFFF0;
+    --victory-wood: #5D4037;
+    --victory-dark: #1A1A1A;
+    --victory-parchment: #F5F0E1;
 }
 
-/* Общие стили */
+/* Викторианские шрифты */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@400;700&display=swap');
+
 body {
-    background: linear-gradient(45deg, var(--primary-bg), var(--secondary-bg)),
-                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
-    color: var(--text-primary);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Cormorant Garamond', serif;
+    background-color: var(--victory-parchment);
+    color: var(--victory-dark);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>');
     line-height: 1.7;
-    padding-top: 80px;
+    letter-spacing: 0.3px;
 }
 
 /* Навигация */
 .navbar {
-    background: var(--primary-bg) !important;
-    border-bottom: 1px solid var(--border-color) !important;
+    background: var(--victory-wood) !important;
+    border-bottom: 3px solid var(--victory-gold) !important;
+    font-family: 'Playfair Display', serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--victory-gold) !important;
+    font-size: 1.8rem;
 }
 
 .nav-link {
-    color: var(--text-secondary) !important;
-    transition: opacity 0.3s;
+    color: var(--victory-ivory) !important;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    position: relative;
+    padding: 0.5rem 1rem !important;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--accent-gold) !important;
-    opacity: 0.9;
+    color: var(--victory-gold) !important;
 }
 
-/* Карточки */
-.card {
-    background: transparent !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-primary);
+.nav-link:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--victory-gold);
+    transition: width 0.3s ease;
 }
 
-.card-title {
-    color: var(--accent-gold) !important;
-    font-weight: 600;
-    font-size: 1.4rem;
+.nav-link:hover:after,
+.nav-link.active:after {
+    width: 100%;
 }
 
-.card-text {
-    color: var(--text-secondary) !important;
+/* Логотип в навигации */
+.navbar-logo {
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
+    border-radius: 4px;
+    border: 1px solid var(--victory-gold);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Детали заказа */
-.order-detail .card {
-    border: 2px solid var(--accent-gold) !important;
+.navbar-brand:hover .navbar-logo {
+    transform: scale(1.05);
 }
 
-.order-detail .badge {
-    background: var(--accent-gold) !important;
-    color: #000 !important;
+/* Герой-секция с логотипом */
+.victory-header {
+    position: relative;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>');
 }
 
-/* Список заказов */
-.orders-list .card {
-    margin-bottom: 1.5rem;
+.victory-header:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 15px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23D4AF37" d="M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>') center/contain no-repeat;
 }
 
-.orders-list .status-badge {
-    background: rgba(197, 160, 89, 0.1) !important;
-    border: 1px solid var(--accent-gold);
-}
-
-/* Отзывы */
-.review-card {
-    border-left: 3px solid var(--accent-gold) !important;
-}
-
-.review-card .rating {
-    color: var(--accent-gold);
+.hero-logo {
+    max-width: 200px;
+    margin: 0 auto 2rem;
+    border-radius: 10px;
+    border: 3px solid var(--victory-gold);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    padding: 10px;
+    background: var(--victory-parchment);
 }
 
 /* Кнопки */
 .btn-gold {
-    background: var(--btn-bg) !important;
-    color: #000 !important;
-    border: none !important;
+    background: var(--victory-gold);
+    color: #000;
+    border: none;
     padding: 10px 25px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-gold:hover {
-    opacity: 0.9;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-gold:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 100%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.btn-gold:hover:after {
+    transform: translate(-50%, -50%) scale(20);
+    opacity: 1;
+}
+
+/* Карточки */
+.card-victory {
+    background: var(--victory-ivory);
+    border: 2px solid var(--victory-gold);
+    border-radius: 0;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.card-victory:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--victory-burgundy);
+}
+
+.card-victory:hover {
+    transform: translateY(-10px);
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-title {
+    font-family: 'Cinzel', serif;
+    color: var(--victory-burgundy);
+    font-weight: 700;
+    border-bottom: 1px solid var(--victory-gold);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5 {
+    font-family: 'Cinzel', serif;
+    color: var(--victory-burgundy);
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h1:after, h2:after, h3:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--victory-gold);
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    letter-spacing: 2px;
 }
 
 /* Формы */
 .form-control {
-    background: rgba(40, 40, 40, 0.8) !important;
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-primary) !important;
+    background: rgba(245, 240, 225, 0.8) !important;
+    border: 1px solid var(--victory-gold) !important;
+    border-radius: 0 !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+    border-color: var(--victory-burgundy);
 }
 
 /* Бейджи */
 .badge.bg-gold {
-    background: var(--btn-bg) !important;
+    background: var(--victory-gold) !important;
     color: #000 !important;
     padding: 8px 15px;
-    border-radius: 20px;
-    font-weight: 500;
+    border-radius: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    body {
-        padding-top: 60px;
-        font-size: 16px;
-    }
-    .card {
-        margin: 0 10px;
-    }
+/* Анимации */
+@keyframes fadeInVictory {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-.master-card .services-list {
-    max-height: 200px;
-    overflow-y: auto;
-    padding-right: 10px;
+
+.victory-animate {
+    animation: fadeInVictory 0.8s ease forwards;
 }
-.text-muted {
-    color: var(--text-secondary) !important;
-    opacity: 1 !important;
-}
+
+/* Звездочный рейтинг */
 .star-rating {
     cursor: pointer;
     display: inline-flex;
@@ -137,38 +251,71 @@ body {
 
 .star-rating i {
     transition: all 0.2s;
-    color: var(--text-secondary);
+    color: var(--victory-gold);
+    font-size: 1.5rem;
 }
 
 .star-rating .bi-star-fill {
-    color: var(--accent-gold) !important;
+    color: var(--victory-burgundy) !important;
     transform: scale(1.1);
 }
 
-.invalid-feedback {
-    color: #dc3545 !important;
-    font-size: 0.9em;
+/* Модальные окна */
+.modal-content {
+    background: var(--victory-parchment);
+    border: 3px solid var(--victory-gold);
+    border-radius: 0;
 }
 
-.spinner-border.text-warning {
-    color: var(--accent-gold) !important;
-}
-/* main.css */
-.btn-gold {
-    background: linear-gradient(135deg, #C5A059 0%, #9E7E47 100%);
-    color: #000 !important;
-    border: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
+.modal-header {
+    border-bottom: 2px solid var(--victory-gold);
+    background: var(--victory-burgundy);
+    color: var(--victory-gold);
+    font-family: 'Cinzel', serif;
 }
 
-.btn-gold:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.modal-footer {
+    border-top: 2px solid var(--victory-gold);
 }
 
-.btn-gold:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Футер */
+footer {
+    background: var(--victory-wood);
+    color: var(--victory-ivory);
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 3px solid var(--victory-gold);
+    font-family: 'Playfair Display', serif;
+}
+
+.footer-logo {
+    border-radius: 8px;
+    border: 2px solid var(--victory-gold);
+    padding: 5px;
+    background: var(--victory-parchment);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .navbar-logo {
+        height: 40px;
+    }
+    
+    .hero-logo {
+        max-width: 150px;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem !important;
+        font-size: 1rem;
+    }
 }

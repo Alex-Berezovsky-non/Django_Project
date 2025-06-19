@@ -1,53 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Оставить отзыв | The Victorian Barber{% endblock %}
+
 {% block content %}
 <div class="container my-5">
-    <h2 class="mb-4">Оставить отзыв</h2>
-    <form id="review-form" method="post" enctype="multipart/form-data" action="{% url 'create_review' %}">
-        {% csrf_token %}
-        
-        <!-- Поле мастера -->
-        <div class="mb-3">
-            {{ form.master.label_tag }}
-            {{ form.master }}
-        </div>
+    <div class="text-center mb-5">
+        <h1 class="mb-3 fs-2"><i class="bi bi-pencil-square"></i> Оставить отзыв</h1>  <!-- Добавлен класс fs-2 -->
+        <p class="fs-4">Ваше мнение важно для поддержания наших высоких стандартов</p> 
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-victory">
+                <div class="card-body">
+                    <form id="review-form" method="post" enctype="multipart/form-data" action="{% url 'create_review' %}">
+                        {% csrf_token %}
+                        
+                        <!-- Поле мастера -->
+                        <div class="mb-4">
+                            <label class="form-label fs-5">{{ form.master.label }}</label>
+                            {{ form.master }}
+                        </div>
 
-        <!-- Информация о мастере (AJAX) -->
-        <div id="master-info" class="mb-4"></div>
+                        <!-- Рейтинг -->
+                        <div class="mb-4">
+                            <label class="form-label fs-5">Оценка</label>
+                            <div class="star-rating mb-2">
+                                {% for i in '12345'|make_list %}
+                                <i class="bi bi-star fs-3" data-rating="{{ forloop.counter }}"></i>
+                                {% endfor %}
+                            </div>
+                            {{ form.rating }}
+                        </div>
 
-        <!-- Рейтинг -->
-        <div class="mb-3">
-            <label class="form-label">Оценка</label>
-            <div class="star-rating">
-                {% for i in '12345'|make_list %}
-                <i class="bi bi-star fs-3" data-rating="{{ forloop.counter }}"></i>
-                {% endfor %}
+                        <!-- Остальные поля -->
+                        <div class="mb-4">
+                            <label class="form-label fs-5">{{ form.client_name.label }}</label>
+                            {{ form.client_name }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fs-5">{{ form.text.label }}</label>
+                            {{ form.text }}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fs-5">{{ form.photo.label }}</label>
+                            {{ form.photo }}
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-gold px-5 fs-5">
+                                <i class="bi bi-send me-2"></i>Отправить отзыв
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            {{ form.rating }}
         </div>
-
-        <!-- Остальные поля -->
-        <div class="mb-3">
-            {{ form.client_name.label_tag }}
-            {{ form.client_name }}
-        </div>
-
-        <div class="mb-3">
-            {{ form.text.label_tag }}
-            {{ form.text }}
-        </div>
-
-        <div class="mb-3">
-            {{ form.photo.label_tag }}
-            {{ form.photo }}
-        </div>
-
-        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
-    </form>
+    </div>
 </div>
-{% endblock %}
 
 {% block scripts %}
-<script src="{% static 'js/reviews.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
 {% endblock %}
