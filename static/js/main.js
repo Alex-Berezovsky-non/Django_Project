@@ -67,6 +67,30 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.add('icons-loaded');
         }
     }, 100);
+    
+    // Прокрутка вверх/вниз
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    const scrollToBottomBtn = document.getElementById('scrollToBottom');
+    
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    if (scrollToBottomBtn) {
+        scrollToBottomBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    }
 });
 
 function updateStars(rating) {

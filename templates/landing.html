@@ -19,6 +19,16 @@
         {% endif %}
     </div>
 
+    <!-- Кнопки навигации -->
+    <div class="nav-buttons">
+        <a href="#" class="nav-btn scroll-up" id="scrollToTop">
+            <i class="bi bi-arrow-up"></i>
+        </a>
+        <a href="#footer" class="nav-btn scroll-down" id="scrollToBottom">
+            <i class="bi bi-arrow-down"></i>
+        </a>
+    </div>
+
     <!-- Секция "О нас" -->
     <section id="about" class="mb-5 victory-animate scroll-animate">
         <div class="text-center">
@@ -34,6 +44,14 @@
             <p class="fs-4">Сегодня мы продолжаем традиции наших основателей, сочетая вековые техники с современными тенденциями. 
                 В наших стенах вы почувствуете атмосферу старой Англии, где время замедляет свой бег, 
                 а качество обслуживания остается неизменным на протяжении десятилетий.</p>
+            
+            <!-- Фото интерьера -->
+            <div class="mt-5 interior-photo-container">
+                <img src="{% static 'images/victorian-interior.jpg' %}" 
+                     alt="Атмосферный интерьер The Victorian Barber" 
+                     class="interior-photo w-100">
+                <p class="text-center mt-2 fst-italic text-muted">Аутентичная атмосфера викторианской эпохи</p>
+            </div>
         </div>
     </section>
 
@@ -214,7 +232,7 @@
 
     <!-- Секция "Запись" -->
     <section id="booking" class="mb-5 text-center victory-animate scroll-animate">
-        <div class="py-5" style="background: url('{% static 'images/victory-pattern.png' %}') repeat; border: 2px solid var(--victory-gold);">
+        <div class="py-5" style="background: url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;100&quot; height=&quot;100&quot; viewBox=&quot;0 0 100 100&quot;><rect width=&quot;100&quot; height=&quot;100&quot; fill=&quot;%23F5F0E1&quot;/><path d=&quot;M0,0 L100,100 M100,0 L0,100&quot; stroke=&quot;%23D4AF37&quot; stroke-width=&quot;0.5&quot; opacity=&quot;0.1&quot;/></svg>'); border: 2px solid var(--victory-gold);">
             <h2 class="mb-4"><i class="bi bi-calendar-event"></i> Запись</h2>
             <p class="fs-5 mb-4">Обеспечьте себе место в нашем кресле для истинных джентльменов</p>
             <a href="{% url 'order_create' %}" class="btn btn-gold btn-lg">
@@ -265,4 +283,14 @@
         </div>
     </section>
 </section>
+{% endblock %}
+
+{% block footer %}
+<footer id="footer" class="text-center py-4" style="background: var(--victory-wood); color: var(--victory-ivory);">
+    <div class="container">
+        <img src="{% static 'images/logo.webp' %}" alt="The Victorian Barber" class="footer-logo mb-3" style="max-width: 100px;">
+        <p class="mb-1">© 1890-{% now "Y" %} The Victorian Barber. Все права сохранены.</p>
+        <p class="mb-0"><i class="bi bi-geo-alt"></i> Лондон, Бейкер-стрит, 221B</p>
+    </div>
+</footer>
 {% endblock %}

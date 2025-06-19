@@ -25,15 +25,6 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.webp' %}" type="image/webp">
     
     {% block extra_head %}{% endblock %}
-    
-    <style>
-        .bi {
-            visibility: hidden;
-        }
-        .icons-loaded .bi {
-            visibility: visible;
-        }
-    </style>
 </head>
 <body>
     {% block header %}
@@ -55,6 +46,7 @@
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Футер для всех страниц -->
     {% block footer %}
         <footer class="text-center py-4">
             <div class="container">
