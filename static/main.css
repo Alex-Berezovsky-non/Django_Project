@@ -8,6 +8,23 @@
     --victory-parchment: #F5F0E1;
 }
 
+/* Анимации */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes inkSpread {
+    from { background-size: 0 100%; }
+    to { background-size: 100% 100%; }
+}
+
 /* Викторианские шрифты */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@400;700&display=swap');
 
@@ -18,6 +35,12 @@ body {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>');
     line-height: 1.7;
     letter-spacing: 0.3px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+body.loaded {
+    opacity: 1;
 }
 
 /* Навигация */
@@ -85,7 +108,13 @@ body {
     padding: 3rem 0;
     text-align: center;
     margin-bottom: 3rem;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>');
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('../images/victorian-interior.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 500px;
 }
 
 .victory-header:after {
@@ -107,6 +136,8 @@ body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     padding: 10px;
     background: var(--victory-parchment);
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
 }
 
 /* Кнопки */
@@ -122,11 +153,13 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    animation: pulse 2s infinite;
 }
 
 .btn-gold:hover {
-    transform: translateY(-3px);
+    transform: scale(1.05);
     box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    animation: none;
 }
 
 .btn-gold:after {
@@ -150,7 +183,7 @@ body {
 
 /* Карточки */
 .card-victory {
-    background: var(--victory-ivory);
+    background: linear-gradient(to bottom right, #F5F0E1, #E8E1D1);
     border: 2px solid var(--victory-gold);
     border-radius: 0;
     box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
@@ -168,6 +201,18 @@ body {
     right: 0;
     height: 4px;
     background: var(--victory-burgundy);
+}
+
+.card-victory::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23D4AF37" stroke-width="0.5" opacity="0.2"/></svg>');
+    mix-blend-mode: multiply;
+    pointer-events: none;
 }
 
 .card-victory:hover {
@@ -209,8 +254,9 @@ h1:after, h2:after, h3:after {
 
 /* Формы */
 .form-control {
-    background: rgba(245, 240, 225, 0.8) !important;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1" opacity="0.8"/><path d="M0,20 L100,20 M0,40 L100,40 M0,60 L100,60 M0,80 L100,80" stroke="%23D4AF37" stroke-width="0.5" opacity="0.1"/></svg>');
     border: 1px solid var(--victory-gold) !important;
+    box-shadow: inset 0 0 10px rgba(93, 64, 55, 0.1);
     border-radius: 0 !important;
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.1rem;
@@ -230,16 +276,49 @@ h1:after, h2:after, h3:after {
     border-radius: 0;
     font-weight: 700;
     letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Анимации */
-@keyframes fadeInVictory {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+.badge.bg-gold::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.2) 60.5%);
+    background-size: 10px 10px;
+    pointer-events: none;
 }
 
+/* Анимации элементов */
 .victory-animate {
-    animation: fadeInVictory 0.8s ease forwards;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+}
+
+.victory-animate:nth-child(1) { animation-delay: 0.1s; }
+.victory-animate:nth-child(2) { animation-delay: 0.3s; }
+.victory-animate:nth-child(3) { animation-delay: 0.5s; }
+
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-animate.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ink-text {
+    background: linear-gradient(to right, var(--victory-dark), var(--victory-dark)) no-repeat left center;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: inkSpread 1.5s ease forwards;
 }
 
 /* Звездочный рейтинг */
@@ -381,6 +460,48 @@ footer {
     pointer-events: none;
 }
 
+/* Стили для фото мастеров */
+.master-photo {
+    filter: sepia(30%) contrast(110%) brightness(90%);
+    transition: filter 0.5s ease;
+}
+
+.master-photo:hover {
+    filter: sepia(0%) contrast(100%) brightness(100%);
+}
+
+/* Анимация падающих листьев */
+.falling-leaves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.falling-leaves span {
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23D4AF37"><path d="M12,3c0,0-6.186,5.34-9.643,8.232C2.154,11.416,2,11.684,2,12c0,0.553,0.447,1,1,1h2v7c0,0.553,0.447,1,1,1h3  c0.553,0,1-0.448,1-1v-4h2v4c0,0.552,0.447,1,1,1h3c0.553,0,1-0.447,1-1v-7h2c0.553,0,1-0.447,1-1c0-0.316-0.154-0.584-0.383-0.768  C18.184,8.34,12,3,12,3z"/></svg>') no-repeat center/contain;
+    opacity: 0.3;
+    animation: falling linear infinite;
+}
+
+@keyframes falling {
+    0% { transform: translate(0, -10vh) rotate(0deg); }
+    100% { transform: translate(calc(100vw * var(--x)), 100vh) rotate(360deg); }
+}
+
+.falling-leaves span:nth-child(1) { --x: 0.1; left: 10%; animation-duration: 15s; }
+.falling-leaves span:nth-child(2) { --x: 0.3; left: 30%; animation-duration: 20s; animation-delay: 2s; }
+.falling-leaves span:nth-child(3) { --x: 0.5; left: 50%; animation-duration: 18s; animation-delay: 1s; }
+.falling-leaves span:nth-child(4) { --x: 0.7; left: 70%; animation-duration: 17s; animation-delay: 3s; }
+.falling-leaves span:nth-child(5) { --x: 0.9; left: 90%; animation-duration: 16s; animation-delay: 4s; }
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .navbar-logo {
@@ -406,5 +527,10 @@ footer {
     
     .interior-photo {
         max-height: 300px;
+    }
+    
+    .victory-header {
+        background-attachment: scroll;
+        min-height: 300px;
     }
 }

@@ -1,54 +1,4 @@
-// main.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Анимация при загрузке
-    document.querySelectorAll('.victory-animate').forEach(el => {
-        el.style.opacity = '0';
-        setTimeout(() => {
-            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        }, 100);
-    });
-
-    // Звездочный рейтинг
-    document.querySelectorAll('.star-rating i').forEach(star => {
-        star.addEventListener('click', function() {
-            const rating = this.dataset.rating;
-            document.getElementById('id_rating').value = rating;
-            updateStars(rating);
-        });
-    });
-
-    // Анимация при прокрутке
-    const animateOnScroll = () => {
-        const elements = document.querySelectorAll('.scroll-animate');
-        elements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < window.innerHeight - elementVisible) {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }
-        });
-    };
-
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll();
-
-    // Эффекты при наведении на карточки услуг
-    document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-            this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
-        });
-    });
-
     // Инициализация иконок
     function checkIconsLoaded() {
         if (document.querySelector('.bi') && getComputedStyle(document.querySelector('.bi')).fontFamily.includes('bootstrap-icons')) {
@@ -68,6 +18,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100);
     
+    // Звездочный рейтинг
+    document.querySelectorAll('.star-rating i').forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.dataset.rating;
+            document.getElementById('id_rating').value = rating;
+            updateStars(rating);
+        });
+    });
+
+    // Эффекты при наведении на карточки услуг
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+            this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+        });
+    });
+
     // Прокрутка вверх/вниз
     const scrollToTopBtn = document.getElementById('scrollToTop');
     const scrollToBottomBtn = document.getElementById('scrollToBottom');
@@ -91,18 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-});
 
-function updateStars(rating) {
-    document.querySelectorAll('.star-rating i').forEach(star => {
-        const starValue = parseInt(star.dataset.rating);
-        star.classList.toggle('bi-star-fill', starValue <= rating);
-        star.classList.toggle('bi-star', starValue > rating);
-    });
-}
-
-// AJAX для загрузки услуг мастера
-document.addEventListener('DOMContentLoaded', function() {
+    // AJAX для загрузки услуг мастера
     const masterSelect = document.getElementById('id_master');
     const servicesSelect = document.getElementById('id_services');
 
@@ -155,4 +117,95 @@ document.addEventListener('DOMContentLoaded', function() {
             servicesSelect.innerHTML = '<option value="">Сначала выберите мастера</option>';
         }
     }
+
+    // AJAX для информации о мастере
+    const masterInfoSelect = document.getElementById('id_master');
+    if (masterInfoSelect) {
+        masterInfoSelect.addEventListener('change', function() {
+            const masterId = this.value;
+            const infoDiv = document.getElementById('master-info');
+            if (!masterId || !infoDiv) return;
+
+            infoDiv.innerHTML = '<div class="spinner-border text-warning"></div>';
+
+            fetch(`/api/master-info/?master_id=${masterId}`, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Ошибка загрузки данных');
+                return response.json();
+            })
+            .then(data => {
+                infoDiv.innerHTML = data.photo ? 
+                    `<img src="${data.photo}" class="img-thumbnail mb-2 master-photo" style="max-width: 200px;">
+                     <p class="text-highlight">Опыт работы: ${data.experience} лет</p>` :
+                    `<p class="text-highlight">Опыт работы: ${data.experience} лет</p>`;
+            })
+            .catch(error => {
+                infoDiv.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+            });
+        });
+    }
+
+    // Валидация формы
+    const form = document.getElementById('review-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            ['id_client_name', 'id_text', 'id_rating', 'id_master'].forEach(id => {
+                const field = document.getElementById(id);
+                const errorDiv = field.parentNode.querySelector('.invalid-feedback');
+                
+                if (!field.value.trim()) {
+                    if (!errorDiv) {
+                        const error = document.createElement('div');
+                        error.className = 'invalid-feedback';
+                        error.textContent = 'Обязательное поле';
+                        field.parentNode.appendChild(error);
+                    }
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                    if (errorDiv) errorDiv.remove();
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: form.querySelector('.is-invalid').offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+
+    // Анимация при прокрутке
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.scroll-animate');
+        elements.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                el.classList.add('active');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll();
+
+    // Плавное появление страницы
+    document.body.classList.add('loaded');
 });
+
+function updateStars(rating) {
+    document.querySelectorAll('.star-rating i').forEach(star => {
+        const starValue = parseInt(star.dataset.rating);
+        star.classList.toggle('bi-star-fill', starValue <= rating);
+        star.classList.toggle('bi-star', starValue > rating);
+    });
+}
