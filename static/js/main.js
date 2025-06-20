@@ -18,16 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 100);
     
-    // Звездочный рейтинг
-    document.querySelectorAll('.star-rating i').forEach(star => {
-        star.addEventListener('click', function() {
-            const rating = this.dataset.rating;
-            document.getElementById('id_rating').value = rating;
-            updateStars(rating);
+    // Звездочный рейтинг (с проверкой наличия)
+    const starRatings = document.querySelectorAll('.star-rating i');
+    if (starRatings.length > 0) {
+        starRatings.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.dataset.rating;
+                const ratingInput = document.getElementById('id_rating');
+                if (ratingInput) {
+                    ratingInput.value = rating;
+                    updateStars(rating);
+                }
+            });
         });
-    });
+    }
 
-    // Эффекты при наведении на карточки услуг
+    // Эффекты при наведении на карточки услуг (с проверкой)
     document.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-10px)';
@@ -40,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Прокрутка вверх/вниз
+    // Прокрутка вверх/вниз (с проверкой)
     const scrollToTopBtn = document.getElementById('scrollToTop');
     const scrollToBottomBtn = document.getElementById('scrollToBottom');
     
@@ -64,49 +70,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // AJAX для загрузки услуг мастера
+    // AJAX для загрузки услуг мастера (с улучшенной обработкой ошибок)
     const masterSelect = document.getElementById('id_master');
     const servicesSelect = document.getElementById('id_services');
 
-    function loadMasterServices(masterId) {
-        if (!masterId) return;
-        servicesSelect.disabled = true;
-        servicesSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
-        
-        fetch(`/api/master-services/?master_id=${masterId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сервера: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                servicesSelect.innerHTML = '';
-                
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-                
-                if (data.services && data.services.length > 0) {
-                    data.services.forEach(service => {
-                        const option = document.createElement('option');
-                        option.value = service.id;
-                        option.textContent = `${service.name} - ${service.price} руб.`;
-                        servicesSelect.appendChild(option);
-                    });
-                } else {
-                    servicesSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
-                }
-                servicesSelect.disabled = false;
-            })
-            .catch(error => {
-                console.error('Ошибка загрузки услуг:', error);
-                servicesSelect.innerHTML = `<option value="">Ошибка: ${error.message}</option>`;
-                servicesSelect.disabled = false;
-            });
-    }
+    if (masterSelect && servicesSelect) {
+        function loadMasterServices(masterId) {
+            if (!masterId) return;
+            servicesSelect.disabled = true;
+            servicesSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
+            
+            fetch(`/api/master-services/?master_id=${masterId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!servicesSelect) return;
+                    
+                    servicesSelect.innerHTML = '';
+                    
+                    if (data.services && data.services.length > 0) {
+                        data.services.forEach(service => {
+                            const option = document.createElement('option');
+                            option.value = service.id;
+                            option.textContent = `${service.name} - ${service.price} руб.`;
+                            servicesSelect.appendChild(option);
+                        });
+                    } else {
+                        servicesSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
+                    }
+                    servicesSelect.disabled = false;
+                })
+                .catch(error => {
+                    if (!servicesSelect) return;
+                    console.error('Ошибка загрузки услуг:', error);
+                    servicesSelect.innerHTML = `<option value="">Ошибка: ${error.message}</option>`;
+                    servicesSelect.disabled = false;
+                });
+        }
 
-    if (masterSelect) {
         masterSelect.addEventListener('change', function() {
             loadMasterServices(this.value);
         });
@@ -118,15 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // AJAX для информации о мастере
+    // AJAX для информации о мастере (с проверкой)
     const masterInfoSelect = document.getElementById('id_master');
-    if (masterInfoSelect) {
+    const masterInfoDiv = document.getElementById('master-info');
+    
+    if (masterInfoSelect && masterInfoDiv) {
         masterInfoSelect.addEventListener('change', function() {
             const masterId = this.value;
-            const infoDiv = document.getElementById('master-info');
-            if (!masterId || !infoDiv) return;
+            if (!masterId) return;
 
-            infoDiv.innerHTML = '<div class="spinner-border text-warning"></div>';
+            masterInfoDiv.innerHTML = '<div class="spinner-border text-warning"></div>';
 
             fetch(`/api/master-info/?master_id=${masterId}`, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'}
@@ -136,18 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
-                infoDiv.innerHTML = data.photo ? 
+                if (!masterInfoDiv) return;
+                masterInfoDiv.innerHTML = data.photo ? 
                     `<img src="${data.photo}" class="img-thumbnail mb-2 master-photo" style="max-width: 200px;">
                      <p class="text-highlight">Опыт работы: ${data.experience} лет</p>` :
                     `<p class="text-highlight">Опыт работы: ${data.experience} лет</p>`;
             })
             .catch(error => {
-                infoDiv.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+                if (!masterInfoDiv) return;
+                masterInfoDiv.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
             });
         });
     }
 
-    // Валидация формы
+    // Валидация формы (с проверкой)
     const form = document.getElementById('review-form');
     if (form) {
         form.addEventListener('submit', function(e) {
@@ -155,6 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             ['id_client_name', 'id_text', 'id_rating', 'id_master'].forEach(id => {
                 const field = document.getElementById(id);
+                if (!field) return;
+                
                 const errorDiv = field.parentNode.querySelector('.invalid-feedback');
                 
                 if (!field.value.trim()) {
@@ -174,10 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isValid) {
                 e.preventDefault();
-                window.scrollTo({
-                    top: form.querySelector('.is-invalid').offsetTop - 100,
-                    behavior: 'smooth'
-                });
+                const firstInvalid = form.querySelector('.is-invalid');
+                if (firstInvalid) {
+                    window.scrollTo({
+                        top: firstInvalid.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     }
@@ -203,7 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function updateStars(rating) {
-    document.querySelectorAll('.star-rating i').forEach(star => {
+    const stars = document.querySelectorAll('.star-rating i');
+    if (!stars.length) return;
+    
+    stars.forEach(star => {
         const starValue = parseInt(star.dataset.rating);
         star.classList.toggle('bi-star-fill', starValue <= rating);
         star.classList.toggle('bi-star', starValue > rating);
