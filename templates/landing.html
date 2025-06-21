@@ -6,20 +6,18 @@
 {% block content %}
 <section class="container my-5 victory-header">
     <div class="text-center mb-5">
-        <!-- Логотип в центре -->
         <img src="{% static 'images/logo.webp' %}" alt="The Victorian Barber" class="hero-logo">
         
-        <h1 class="display-4 mt-3">
+        <h1 class="ink-title mt-3">
             The Victorian Barber
         </h1>
-        <p class="lead fs-3">Где традиции встречаются с безупречным стилем</p>
+        <p class="lead victorian-description">Где традиции встречаются с безупречным стилем</p>
         
         {% if user.is_authenticated %}
-            <p class="mt-4 fs-4">Добро пожаловать, {{ user.username }}! Ваше превосходство всегда желанно в наших стенах.</p>
+            <p class="mt-4 victorian-description">Добро пожаловать, {{ user.username }}! Ваше превосходство всегда желанно в наших стенах.</p>
         {% endif %}
     </div>
 
-    <!-- Кнопки навигации -->
     <div class="nav-buttons">
         <a href="#" class="nav-btn scroll-up" id="scrollToTop">
             <i class="bi bi-arrow-up"></i>
@@ -29,23 +27,21 @@
         </a>
     </div>
 
-    <!-- Секция "О нас" -->
     <section id="about" class="mb-5 victory-animate scroll-animate">
         <div class="text-center">
-            <h2 class="mb-4"><i class="bi bi-building"></i> Наше Наследие</h2>
-            <p class="fs-4">Основанный в 1890 году в самом сердце Лондона, наш барбершоп хранит традиции истинного английского стиля. 
+            <h2 class="mb-4 ink-title"><i class="bi bi-building"></i> Наше Наследие</h2>
+            <p class="victorian-description">Основанный в 1890 году в самом сердце Лондона, наш барбершоп хранит традиции истинного английского стиля. 
                 "The Victorian Barber" начал свою историю как небольшое ателье для джентльменов высшего света, 
                 где лорды и аристократы находили убежище от суеты городской жизни.</p>
                 
-            <p class="fs-4">За более чем вековую историю наши мастера отточили искусство стрижки и бритья до совершенства. 
+            <p class="victorian-description">За более чем вековую историю наши мастера отточили искусство стрижки и бритья до совершенства. 
                 Мы - последние хранители традиций викторианской эпохи, где каждая стрижка возведена в ранг церемонии, 
                 а бритье превращается в искусство.</p>
                 
-            <p class="fs-4">Сегодня мы продолжаем традиции наших основателей, сочетая вековые техники с современными тенденциями. 
+            <p class="victorian-description">Сегодня мы продолжаем традиции наших основателей, сочетая вековые техники с современными тенденциями. 
                 В наших стенах вы почувствуете атмосферу старой Англии, где время замедляет свой бег, 
                 а качество обслуживания остается неизменным на протяжении десятилетий.</p>
             
-            <!-- Фото интерьера -->
             <div class="mt-5 interior-photo-container">
                 <img src="{% static 'images/victorian-interior.jpg' %}" 
                      alt="Атмосферный интерьер The Victorian Barber" 
@@ -55,25 +51,26 @@
         </div>
     </section>
 
-    <!-- Секция "Услуги" -->
+    <div class="victorian-divider"></div>
+
     <section id="services" class="mb-5">
         <div class="text-center">
-            <h2 class="mb-4"><i class="bi bi-shop"></i> Аристократический Уход</h2>
-            <p class="fs-5 mb-4">Услуги для истинных джентльменов, созданные по канонам викторианской эпохи</p>
+            <h2 class="mb-4 ink-title"><i class="bi bi-shop"></i> Аристократический Уход</h2>
+            <p class="victorian-description mb-4">Услуги для истинных джентльменов, созданные по канонам викторианской эпохи</p>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col victory-animate scroll-animate">
-                <div class="card card-victory h-100 service-card">
+                <div class="card card-victory h-100 service-card service-premium">
                     <div class="card-body">
                         <h5 class="card-title text-center">
                             <i class="bi bi-droplet"></i> Королевское Бритье
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Традиционное горячее бритье с использованием серебряных инструментов и фирменных кремов ручной работы. 
                             Включает распаривание лица горячим полотенцем, массаж и заключительный уход с ароматическими маслами.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 1500 гиней
                             </span>
                         </div>
@@ -87,13 +84,13 @@
                         <h5 class="card-title text-center">
                             <i class="bi bi-scissors"></i> Джентльменская Стрижка
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Классическая стрижка по канонам викторианской моды с финальной укладкой. 
                             Мастер учтет особенности вашего типа лица и структуры волос, создавая идеальный силуэт. 
                             Завершается традиционной сушкой феном и укладкой воском.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 1200 гиней
                             </span>
                         </div>
@@ -107,12 +104,12 @@
                         <h5 class="card-title text-center">
                             <i class="bi bi-brush"></i> Уход за Бородой
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Формирование, окрашивание и уход с использованием восков ручной работы на основе пчелиного воска. 
                             Включает стрижку по контуру, филировку, укладку и заключительную обработку маслом для бороды с ароматом сандала и дуба.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 900 гиней
                             </span>
                         </div>
@@ -126,13 +123,13 @@
                         <h5 class="card-title text-center">
                             <i class="bi bi-star"></i> Аристократическая Укладка
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Укладка с использованием помад и восков премиум-класса на основе натуральных компонентов. 
                             Мастер создаст идеальный образ, будь то строгий деловой стиль или элегантная небрежность, 
                             характерная для английской аристократии.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 800 гиней
                             </span>
                         </div>
@@ -146,13 +143,13 @@
                         <h5 class="card-title text-center">
                             <i class="bi bi-cloud-drizzle"></i> Церемония Очищения
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Глубокое очищение кожи лица и головы с ароматическими маслами. 
                             Процедура включает пилинг, массаж головы по традиционной английской методике и 
-            заключительное нанесение увлажняющего лосьона с экстрактом дуба и лаванды.
+                            заключительное нанесение увлажняющего лосьона с экстрактом дуба и лаванды.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 700 гиней
                             </span>
                         </div>
@@ -166,13 +163,13 @@
                         <h5 class="card-title text-center">
                             <i class="bi bi-gem"></i> Реставрация Волос
                         </h5>
-                        <p class="card-text text-center fs-5">
+                        <p class="card-text text-center victorian-description">
                             Комплексный уход за поврежденными волосами с использованием восстановительных масок на основе 
-            редких трав и масел. Процедура включает диагностику состояния волос, глубокое восстановление и 
-            защиту от внешних воздействий.
+                            редких трав и масел. Процедура включает диагностику состояния волос, глубокое восстановление и 
+                            защиту от внешних воздействий.
                         </p>
                         <div class="text-center mt-4">
-                            <span class="badge bg-gold px-3 py-2 fs-5">
+                            <span class="badge bg-gold px-3 py-2 victorian-description">
                                 1800 гиней
                             </span>
                         </div>
@@ -182,11 +179,12 @@
         </div>
     </section>
 
-    <!-- Секция "Мастера"-->
+    <div class="victorian-divider"></div>
+
     <section id="masters" class="mb-5">
         <div class="text-center">
-            <h2 class="mb-4"><i class="bi bi-people"></i> Наши Мастера</h2>
-            <p class="fs-4 mb-4">Истинные художники своего дела, хранители традиций</p>
+            <h2 class="mb-4 ink-title"><i class="bi bi-people"></i> Наши Мастера</h2>
+            <p class="victorian-description mb-4">Истинные художники своего дела, хранители традиций</p>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for master in masters %}
@@ -208,9 +206,9 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">{{ master.name }}</h5>
                         <p class="card-text text-center">
-                            <span class="badge bg-gold fs-5">Стаж: {{ master.experience }} лет</span>
+                            <span class="badge bg-gold victorian-description">Стаж: {{ master.experience }} лет</span>
                         </p>
-                        <ul class="list-unstyled text-center fs-5">
+                        <ul class="list-unstyled text-center victorian-description">
                             {% for service in master.services.all|slice:":3" %} 
                             <li class="mb-2">
                                 <i class="bi bi-check-circle text-success me-2"></i>
@@ -220,7 +218,7 @@
                         </ul>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="{% url 'master_detail' master.id %}" class="btn btn-gold">
+                        <a href="{% url 'master_detail' master.id %}" class="btn btn-gold btn-seal">
                             <i class="bi bi-eye me-1"></i>Подробнее
                         </a>
                     </div>
@@ -230,25 +228,27 @@
         </div>
     </section>
 
-    <!-- Секция "Запись" -->
+    <div class="victorian-divider"></div>
+
     <section id="booking" class="mb-5 text-center victory-animate scroll-animate">
         <div class="py-5" style="background: url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;100&quot; height=&quot;100&quot; viewBox=&quot;0 0 100 100&quot;><rect width=&quot;100&quot; height=&quot;100&quot; fill=&quot;%23F5F0E1&quot;/><path d=&quot;M0,0 L100,100 M100,0 L0,100&quot; stroke=&quot;%23D4AF37&quot; stroke-width=&quot;0.5&quot; opacity=&quot;0.1&quot;/></svg>'); border: 2px solid var(--victory-gold);">
-            <h2 class="mb-4"><i class="bi bi-calendar-event"></i> Запись</h2>
-            <p class="fs-5 mb-4">Обеспечьте себе место в нашем кресле для истинных джентльменов</p>
-            <a href="{% url 'order_create' %}" class="btn btn-gold btn-lg">
+            <h2 class="mb-4 ink-title"><i class="bi bi-calendar-event"></i> Запись</h2>
+            <p class="victorian-description mb-4">Обеспечьте себе место в нашем кресле для истинных джентльменов</p>
+            <a href="{% url 'order_create' %}" class="btn btn-gold btn-lg btn-seal">
                 <i class="bi bi-pen me-2"></i>Записаться онлайн
             </a>
         </div>
     </section>
 
-    <!-- Секция "Отзывы" -->
+    <div class="victorian-divider"></div>
+
     <section class="mb-5">
         <div class="text-center">
-            <h2 class="mb-4"><i class="bi bi-chat-quote"></i> Отзывы клиентов</h2>
-            <p class="fs-5 mb-4">Слова наших уважаемых джентльменов</p>
+            <h2 class="mb-4 ink-title"><i class="bi bi-chat-quote"></i> Отзывы клиентов</h2>
+            <p class="victorian-description mb-4">Слова наших уважаемых джентльменов</p>
         </div>
         <div class="text-center mb-4">
-            <a href="{% url 'create_review' %}" class="btn btn-gold">
+            <a href="{% url 'create_review' %}" class="btn btn-gold btn-seal">
                 <i class="bi bi-pencil-square me-2"></i>Оставить отзыв
             </a>
         </div>
@@ -258,24 +258,24 @@
                 <div class="card card-victory h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-title mb-0 fs-4">{{ review.client_name }}</h5>
+                            <h5 class="card-title mb-0 ink-title">{{ review.client_name }}</h5>
                             <div class="text-warning">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= review.rating %}
-                                        <i class="bi bi-star-fill fs-5"></i>
+                                        <i class="bi bi-star-fill"></i>
                                     {% else %}
-                                        <i class="bi bi-star fs-5"></i>
+                                        <i class="bi bi-star"></i>
                                     {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
-                        <p class="card-text fs-4"><i>"{{ review.text }}"</i></p>
-                        <small class="text-muted">
+                        <p class="card-text victorian-description"><i>"{{ review.text }}"</i></p>
+                        <small class="text-muted victorian-description">
                             <i class="bi bi-person me-1"></i>Мастер: {{ review.master.name }}
                         </small>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">{{ review.created_at|date:"d.m.Y" }}</small>
+                        <small class="text-muted victorian-description">{{ review.created_at|date:"d.m.Y" }}</small>
                     </div>
                 </div>
             </div>
@@ -286,11 +286,11 @@
 {% endblock %}
 
 {% block footer %}
-<footer id="footer" class="text-center py-4" style="background: var(--victory-wood); color: var(--victory-ivory);">
+<footer id="footer" class="text-center py-4 victorian-footer">
     <div class="container">
-        <img src="{% static 'images/logo.webp' %}" alt="The Victorian Barber" class="footer-logo mb-3" style="max-width: 100px;">
-        <p class="mb-1">© 1890-{% now "Y" %} The Victorian Barber. Все права сохранены.</p>
-        <p class="mb-0"><i class="bi bi-geo-alt"></i> Лондон, Бейкер-стрит, 221B</p>
+        <img src="{% static 'images/logo.webp' %}" alt="The Victorian Barber" class="footer-logo mb-3">
+        <p class="mb-1 victorian-description">© 1890-{% now "Y" %} The Victorian Barber. Все права сохранены.</p>
+        <p class="mb-0 victorian-description"><i class="bi bi-geo-alt"></i> Лондон, Бейкер-стрит, 221B</p>
     </div>
 </footer>
 {% endblock %}

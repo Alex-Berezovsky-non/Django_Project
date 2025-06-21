@@ -719,3 +719,177 @@ footer::before {
         height: 60px;
     }
 }
+/* ==================== */
+/* VICTORIAN ENHANCEMENTS */
+/* ==================== */
+
+/* 1. Викторианские узоры в фоне */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M20,20 Q50,0 80,20 T100,50" fill="none" stroke="%23D4AF37" stroke-width="0.3" opacity="0.05"/></svg>');
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 2. Анимированные тени для логотипа */
+.navbar-logo {
+  animation: shadowPulse 4s infinite alternate;
+}
+
+@keyframes shadowPulse {
+  0% { filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.3)); }
+  100% { filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.7)); }
+}
+
+/* 3. Эффект старинного письма */
+.victorian-description {
+  background: 
+    linear-gradient(to right, transparent 95%, rgba(139, 0, 0, 0.1) 100%),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23F5F0E1" opacity="0.8"/><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%235D4037" stroke-width="0.5" opacity="0.1"/></svg>');
+  padding: 1.5rem;
+  border-left: 3px solid var(--victory-gold);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1em;
+}
+
+/* 4. Премиум услуги с анимацией */
+.service-premium {
+  position: relative;
+  animation: premiumPulse 3s ease-in-out infinite;
+  border: 2px solid var(--victory-gold);
+}
+
+@keyframes premiumPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3); }
+}
+
+.service-premium::before {
+  content: "★ Премиум";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: var(--victory-burgundy);
+  color: var(--victory-gold);
+  padding: 2px 10px;
+  font-size: 0.8em;
+  font-family: 'Cinzel', serif;
+}
+
+/* 5. Чернильные заголовки */
+.ink-title {
+  display: inline-block;
+  background: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50"><path d="M10,25 Q30,5 50,25 T90,25" fill="%238B0000" opacity="0.1"/></svg>') no-repeat bottom;
+  background-size: 100% 15px;
+  padding-bottom: 15px;
+  font-family: 'Cinzel', serif;
+}
+
+/* 6. Винтажные разделители */
+.victorian-divider {
+  height: 24px;
+  background: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0,10 Q25,20 50,10 T100,10" fill="none" stroke="%23D4AF37" stroke-width="1.5" stroke-dasharray="5,3"/></svg>') center/contain no-repeat;
+  margin: 2.5rem 0;
+  opacity: 0.8;
+}
+
+/* 7. Пергаментные отзывы */
+.review-victorian {
+  background: 
+    linear-gradient(to bottom right, #F5F0E1, #E8E1D1),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%235D4037" stroke-width="0.3" opacity="0.1"/></svg>');
+  box-shadow: 
+    0 5px 15px rgba(0,0,0,0.1),
+    inset 0 0 50px rgba(93, 64, 55, 0.05);
+  border-radius: 0;
+  border-top: 1px solid var(--victory-gold);
+  border-bottom: 1px solid var(--victory-gold);
+}
+
+/* 8. Анимированная рамка */
+.victorian-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.victorian-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid var(--victory-gold);
+  animation: borderGlow 3s infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; box-shadow: 0 0 15px var(--victory-gold); }
+}
+
+/* 9. Кнопки с печатью */
+.btn-seal {
+  position: relative;
+  padding-left: 3rem;
+  letter-spacing: 1px;
+}
+
+.btn-seal::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="%23FFF" stroke-width="2"/><path d="M12,8 L12,16 M8,12 L16,12" stroke="%23FFF" stroke-width="2"/></svg>') no-repeat center;
+}
+
+/* 10. Оживающий бордер */
+.hover-border {
+  position: relative;
+}
+
+.hover-border::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--victory-gold);
+  transition: all 0.5s ease;
+}
+
+.hover-border:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .service-premium {
+    animation: none;
+  }
+  
+  .victorian-divider {
+    height: 18px;
+    margin: 1.5rem 0;
+  }
+}
+.footer-logo {
+    max-width: 60px;
+    height: auto;
+}

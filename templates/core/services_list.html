@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Список услуг{% endblock %}
+{% block title %}Список услуг | The Victorian Barber{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4 fs-2">Список услуг</h1>  
+    <h1 class="mb-4 ink-title">Список услуг</h1>
+    
+    <div class="victorian-divider"></div>
     
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <a href="{% url 'service_create' %}" class="btn btn-success fs-5">  
+        <a href="{% url 'service_create' %}" class="btn btn-success btn-seal victorian-description">
             <i class="bi bi-plus-circle me-1"></i> Добавить услугу
         </a>
     </div>
@@ -15,22 +18,22 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for service in services %}
         <div class="col">
-            <div class="card h-100 shadow">
+            <div class="card h-100 shadow {% if service.is_popular %}service-premium{% endif %}">
                 {% if service.image %}
                     <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
                 {% endif %}
                 <div class="card-body">
-                    <h4 class="card-title">{{ service.name }}</h4>  
-                    <p class="card-text fs-5">{{ service.description|truncatechars:100 }}</p>  
-                    <p class="fw-bold fs-5">{{ service.price }} руб.</p>  
-                    <p class="fs-5"><i class="bi bi-clock"></i> {{ service.duration }} мин.</p>  
+                    <h4 class="card-title ink-title">{{ service.name }}</h4>
+                    <p class="card-text victorian-description">{{ service.description|truncatechars:100 }}</p>
+                    <p class="fw-bold victorian-description">{{ service.price }} руб.</p>
+                    <p class="victorian-description"><i class="bi bi-clock"></i> {{ service.duration }} мин.</p>
                     
                     {% if service.is_popular %}
-                        <span class="badge bg-warning text-dark fs-5">Популярная</span>  
+                        <span class="badge bg-warning text-dark victorian-description">Популярная</span>
                     {% endif %}
                 </div>
                 <div class="card-footer">
-                    <a href="{% url 'service_update' service.pk %}" class="btn btn-sm btn-primary fs-5">  
+                    <a href="{% url 'service_update' service.pk %}" class="btn btn-sm btn-primary victorian-description">
                         <i class="bi bi-pencil"></i> Редактировать
                     </a>
                 </div>
@@ -38,7 +41,7 @@
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="alert alert-info fs-5">  
+            <div class="alert alert-info victorian-description">
                 <i class="bi bi-info-circle"></i> Нет доступных услуг
             </div>
         </div>

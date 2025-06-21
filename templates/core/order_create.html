@@ -6,49 +6,63 @@
 {% block content %}
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h1 class="mb-4 fs-2"><i class="bi bi-calendar-plus"></i> Онлайн-запись</h1> 
-        <p class="fs-4">Забронируйте время для истинно джентльменского ухода</p> 
+        <h1 class="mb-4 ink-title"><i class="bi bi-calendar-plus"></i> Онлайн-запись</h1>
+        <p class="victorian-description">Забронируйте время для истинно джентльменского ухода</p>
     </div>
+    
+    <div class="victorian-divider"></div>
     
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card card-victory">
+            <div class="card card-victorian-border">
                 <div class="card-body">
                     <form method="post" id="order-form">
                         {% csrf_token %}
                         
                         <div class="mb-4">
-                            <label for="id_client_name" class="form-label fs-5"><i class="bi bi-person me-2"></i>Ваше имя</label>
+                            <label for="id_client_name" class="form-label victorian-description">
+                                <i class="bi bi-person me-2"></i>Ваше имя
+                            </label>
                             {{ form.client_name }}
                         </div>
                         
                         <div class="mb-4">
-                            <label for="id_phone" class="form-label fs-5"><i class="bi bi-telephone me-2"></i>Телефон</label>
+                            <label for="id_phone" class="form-label victorian-description">
+                                <i class="bi bi-telephone me-2"></i>Телефон
+                            </label>
                             {{ form.phone }}
                         </div>
                         
                         <div class="mb-4">
-                            <label for="id_master" class="form-label fs-5"><i class="bi bi-person-badge me-2"></i>Выберите мастера</label>
+                            <label for="id_master" class="form-label victorian-description">
+                                <i class="bi bi-person-badge me-2"></i>Выберите мастера
+                            </label>
                             {{ form.master }}
                         </div>
                         
                         <div class="mb-4">
-                            <label for="id_services" class="form-label fs-5"><i class="bi bi-scissors me-2"></i>Выберите услуги</label>
+                            <label for="id_services" class="form-label victorian-description">
+                                <i class="bi bi-scissors me-2"></i>Выберите услуги
+                            </label>
                             {{ form.services }}
                         </div>
                         
                         <div class="mb-4">
-                            <label for="id_appointment_date" class="form-label fs-5"><i class="bi bi-clock me-2"></i>Дата и время записи</label>
+                            <label for="id_appointment_date" class="form-label victorian-description">
+                                <i class="bi bi-clock me-2"></i>Дата и время записи
+                            </label>
                             {{ form.appointment_date }}
                         </div>
                         
                         <div class="mb-4">
-                            <label for="id_comment" class="form-label fs-5"><i class="bi bi-chat-text me-2"></i>Комментарий (необязательно)</label>
+                            <label for="id_comment" class="form-label victorian-description">
+                                <i class="bi bi-chat-text me-2"></i>Комментарий (необязательно)
+                            </label>
                             {{ form.comment }}
                         </div>
                         
                         <div class="text-center mt-5">
-                            <button type="submit" class="btn btn-gold btn-lg px-5 fs-5">
+                            <button type="submit" class="btn btn-gold btn-lg px-5 btn-seal victorian-description">
                                 <i class="bi bi-check-circle me-2"></i>Подтвердить запись
                             </button>
                         </div>
@@ -58,7 +72,7 @@
         </div>
     </div>
     <div class="text-center mt-4">
-        <a href="{% url 'landing' %}" class="btn btn-gold fs-5">
+        <a href="{% url 'landing' %}" class="btn btn-gold btn-seal victorian-description">
             <i class="bi bi-house-door me-2"></i>На главную
         </a>
     </div>
