@@ -3,7 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.exceptions import ValidationError
 import re
-
+from datetime import date
+from .models import Profile
 User = get_user_model()
 
 class UserLoginForm(AuthenticationForm):
@@ -137,3 +138,66 @@ class UserRegisterForm(UserCreationForm):
         if commit:
             user.save()
         return user
+from datetime import date
+
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите имя пользователя'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите email'
+            }),
+        }
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise ValidationError("Пользователь с таким email уже существует")
+        return email
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar', 'birth_date', 'telegram_id', 'github_id']
+        widgets = {
+            'birth_date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+            'telegram_id': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '@username'
+            }),
+            'github_id': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'username'
+            }),
+        }
+        help_texts = {
+            'telegram_id': 'Введите ваш Telegram ID (начинается с @)',
+            'github_id': 'Введите ваш GitHub username',
+        }
+    
+    def clean_telegram_id(self):
+        telegram_id = self.cleaned_data.get('telegram_id')
+        if telegram_id and not telegram_id.startswith('@'):
+            raise ValidationError("Telegram ID должен начинаться с @")
+        return telegram_id
+    
+    def clean_github_id(self):
+        github_id = self.cleaned_data.get('github_id')
+        if github_id and ' ' in github_id:
+            raise ValidationError("Github ID не должен содержать пробелов")
+        return github_id
+    
+    def clean_birth_date(self):
+        birth_date = self.cleaned_data.get('birth_date')
+        if birth_date and birth_date > date.today():
+            raise ValidationError("Дата рождения не может быть в будущем")
+        return birth_date

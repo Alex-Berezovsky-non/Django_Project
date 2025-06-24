@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h2>Профиль {{ user_profile.username }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Email:</strong> {{ user_profile.email }}</p>
+            {% if user_profile.profile.avatar %}
+                <img src="{{ user_profile.profile.avatar.url }}" class="img-thumbnail" width="150">
+            {% endif %}
+            <p><strong>Telegram:</strong> {{ user_profile.profile.telegram_id|default:"Не указан" }}</p>
+            <a href="{% url 'users:profile_edit' %}" class="btn btn-primary mt-3">Редактировать</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

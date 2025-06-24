@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h2>Профиль пользователя {{ user_profile.username }}</h2>
+        </div>
+        <div class="card-body">
+            {% if user_profile.profile.avatar %}
+                <img src="{{ user_profile.profile.avatar.url }}" class="img-thumbnail mb-3" width="150">
+            {% endif %}
+            
+            <p><strong>Email:</strong> {{ user_profile.email }}</p>
+            
+            {% if user_profile.profile.birth_date %}
+                <p><strong>Дата рождения:</strong> {{ user_profile.profile.birth_date }}</p>
+            {% endif %}
+            
+            {% if user_profile.profile.telegram_id %}
+                <p><strong>Telegram:</strong> {{ user_profile.profile.telegram_id }}</p>
+            {% endif %}
+            
+            {% if user_profile.profile.github_id %}
+                <p><strong>GitHub:</strong> {{ user_profile.profile.github_id }}</p>
+            {% endif %}
+            
+            {% if request.user == user_profile %}
+                <a href="{% url 'users:profile_edit' %}" class="btn btn-primary mt-3">
+                    Редактировать профиль
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

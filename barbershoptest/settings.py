@@ -115,13 +115,14 @@ LOGIN_REDIRECT_URL = 'landing'  # Перенаправление после вх
 LOGOUT_REDIRECT_URL = 'landing'  # Перенаправление после выхода
 
 # Настройки email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Вывод писем в консоль
-
-# Для реальной отправки email (раскомментировать в продакшене)
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
-# EMAIL_USE_SSL = True
-# EMAIL_HOST_USER = 'ваш-email@yandex.ru'
-# EMAIL_HOST_PASSWORD = 'ваш-пароль'
-# DEFAULT_FROM_EMAIL = 'ваш-email@yandex.ru'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Для разработки - вывод в консоль
+else:
+    # Для production - отправка через SMTP
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'False').lower() == 'true'
+    EMAIL_HOST_USER = os.getenv('YANDEX_EMAIL')
+    EMAIL_HOST_PASSWORD = os.getenv('YANDEX_EMAIL_PASSWORD')
+    DEFAULT_FROM_EMAIL = os.getenv('YANDEX_EMAIL')
+    SERVER_EMAIL = os.getenv('YANDEX_EMAIL')
